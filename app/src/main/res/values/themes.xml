@@ -1,6 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.ImageCollector" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -11,6 +13,21 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+        <item name="android:textColor">@color/black_light</item>
+    </style>
+
+    <!-- 탭 스타일 -->
+    <style name="Widget.ImageCollector.TabLayout.MainTab" parent="">
+        <item name="tabBackground">@null</item>
+        <item name="android:background">@color/white</item>
+        <item name="tabIndicatorHeight">1dp</item>
+        <item name="tabIndicatorColor">@color/black_light</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabMinWidth">0dp</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabTextColor">@color/grey</item>
+        <item name="tabSelectedTextColor">@color/black_light</item>
     </style>
 </resources>
