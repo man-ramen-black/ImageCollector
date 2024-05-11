@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -33,14 +34,39 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        buildConfig = true
+        dataBinding = true
+    }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
+
+    implementation(libs.kotlinx.serialization.json)
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0") {
+        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-serialization-json")
+    }
+
     testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
