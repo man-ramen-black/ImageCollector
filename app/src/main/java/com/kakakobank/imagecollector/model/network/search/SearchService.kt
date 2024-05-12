@@ -36,5 +36,5 @@ interface SearchService {
         @Query("sort") sort: String,
         @Query("page") page: Int,
         @Query("size") size: Int,
-    ): NetworkResult<ImageSearchResponse>
+    ): NetworkResult<VideoSearchResponse>
 }

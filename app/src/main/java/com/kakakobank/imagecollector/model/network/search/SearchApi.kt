@@ -24,7 +24,7 @@ object SearchApi {
         page: Int,
         size: Int,
         sortType: SortType
-    ): NetworkResult<ImageSearchResponse> {
+    ): NetworkResult<VideoSearchResponse> {
         return Network.service(SearchService::class.java)
             .searchVideo(
                 keyword,

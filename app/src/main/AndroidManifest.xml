@@ -19,6 +19,7 @@
         <activity
             android:name="com.kakakobank.imagecollector.ui.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
             android:exported="true">
             <!-- 앱 실행 -->

@@ -53,6 +53,36 @@ class SearchModel @Inject constructor() {
         return NetworkResult.success(result, contentsList)
     }
 
+    suspend fun searchVideo(keyword: String): NetworkResult<List<Contents>> {
+        val result = SearchApi.searchVideo(
+            keyword,
+            page,
+            PAGE_SIZE,
+            SORT_TYPE
+        )
+        Log.d(result)
+
+        if (!result.isSuccess) {
+            return NetworkResult.failure(result)
+        }
+
+        val documents = result.response?.documents
+            ?: return NetworkResult.failure(result, ServerException("[${result.response?.errorType}] ${result.response?.message}"))
+
+        val contentsList = documents
+            .map {
+                Contents(
+                    Contents.Type.VIDEO,
+                    it.thumbnail,
+                    it.title,
+                    "",
+                    it.url,
+                    toTimeMillis(it.datetime)
+                )
+            }
+        return NetworkResult.success(result, contentsList)
+    }
+
     private fun toTimeMillis(iso8601: String): Long {
         return try {
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
