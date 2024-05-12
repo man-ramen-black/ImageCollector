@@ -57,7 +57,6 @@
             android:inputType="text"
             android:maxLines="1"
             android:text="@={viewModel.searchKeyword}"
-            android:onTextChanged="@{(text, start, before, count) -> viewModel.onTextChanged(text)}"
             />
 
         <ImageButton

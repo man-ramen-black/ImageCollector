@@ -21,9 +21,7 @@ class SearchModel @Inject constructor() {
         private val SORT_TYPE = SortType.RECENCY
     }
 
-    private var page = 1
-
-    suspend fun searchImage(keyword: String): NetworkResult<List<Contents>> {
+    suspend fun searchImage(keyword: String, page: Int): NetworkResult<Pair<Boolean, List<Contents>>> {
         val result = SearchApi.searchImage(
             keyword,
             page,
@@ -39,6 +37,7 @@ class SearchModel @Inject constructor() {
         val documents = result.response?.documents
             ?: return NetworkResult.failure(result, ServerException("[${result.response?.errorType}] ${result.response?.message}"))
 
+        val isEnd = result.response.meta?.isEnd ?: true
         val contentsList = documents
             .map {
                 Contents(
@@ -50,10 +49,10 @@ class SearchModel @Inject constructor() {
                     toTimeMillis(it.datetime)
                 )
             }
-        return NetworkResult.success(result, contentsList)
+        return NetworkResult.success(result, isEnd to contentsList)
     }
 
-    suspend fun searchVideo(keyword: String): NetworkResult<List<Contents>> {
+    suspend fun searchVideo(keyword: String, page: Int): NetworkResult<Pair<Boolean, List<Contents>>> {
         val result = SearchApi.searchVideo(
             keyword,
             page,
@@ -69,6 +68,7 @@ class SearchModel @Inject constructor() {
         val documents = result.response?.documents
             ?: return NetworkResult.failure(result, ServerException("[${result.response?.errorType}] ${result.response?.message}"))
 
+        val isEnd = result.response.meta?.isEnd ?: true
         val contentsList = documents
             .map {
                 Contents(
@@ -80,7 +80,7 @@ class SearchModel @Inject constructor() {
                     toTimeMillis(it.datetime)
                 )
             }
-        return NetworkResult.success(result, contentsList)
+        return NetworkResult.success(result, isEnd to contentsList)
     }
 
     private fun toTimeMillis(iso8601: String): Long {

@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.kakakobank.imagecollector.model.data.Contents" />
+            type="com.kakakobank.imagecollector.ui.search.SearchItem.ContentsItem" />
 
         <variable
             name="viewModel"
@@ -40,7 +40,7 @@
                 android:id="@+id/thumbnail_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                glideUrl="@{item.thumbnail}"
+                glideUrl="@{item.contents.thumbnail}"
                 />
         </com.google.android.material.card.MaterialCardView>
 
@@ -65,7 +65,7 @@
             app:layout_constraintRight_toLeftOf="@id/title"
             app:layout_constraintLeft_toRightOf="@id/thumbnail"
             android:layout_marginEnd="4dp"
-            android:src="@{item.type.iconResId}"
+            android:src="@{item.contents.type.iconResId}"
             />
 
         <TextView
@@ -79,7 +79,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.ImageCollector.Head"
-            android:text="@{item.title}"
+            android:text="@{item.contents.title}"
             />
 
         <TextView
@@ -91,7 +91,7 @@
             app:layout_constraintLeft_toRightOf="@id/title"
             app:layout_constraintRight_toRightOf="parent"
             android:textAppearance="@style/TextAppearance.ImageCollector.Category"
-            android:text="@{item.category}"
+            android:text="@{item.contents.category}"
             />
 
         <TextView
@@ -105,7 +105,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.ImageCollector.Body"
-            android:text="@{item.contentsUrl}"
+            android:text="@{item.contents.contentsUrl}"
             />
 
         <TextView
@@ -119,7 +119,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.ImageCollector.Caption"
-            time="@{item.dateTime}"
+            time="@{item.contents.dateTime}"
             dateFormat="@{@string/search_date_format}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
