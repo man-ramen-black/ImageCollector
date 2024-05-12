@@ -1,4 +1,4 @@
-package com.kakakobank.imagecollector.model
+package com.kakakobank.imagecollector.model.data
 
 import androidx.annotation.DrawableRes
 import com.kakaobank.imagecollector.R

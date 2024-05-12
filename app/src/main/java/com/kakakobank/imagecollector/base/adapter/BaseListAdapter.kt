@@ -20,20 +20,6 @@ abstract class BaseListAdapter<DATA : Any>(itemCallback: DiffUtil.ItemCallback<D
     constructor(areItemsTheSame : (oldItem: DATA, newItem: DATA) -> Boolean)
             : this(SimpleItemCallback<DATA>(areItemsTheSame))
 
-    init {
-        // 리스트 아이템이 유니크한 getItemId 를 가지고 있고, 동일한 getItemId 일 경우, 갱신하지 않도록 설정
-        setHasStableIds(true)
-    }
-
-    final override fun setHasStableIds(hasStableIds: Boolean) {
-        super.setHasStableIds(hasStableIds)
-    }
-
-    override fun getItemId(position: Int): Long {
-        // notifyDataSetChanged 시 깜빡임을 방지하기 위해 유니크 값 반환
-        return getItem(position).hashCode().toLong()
-    }
-
     abstract class BaseViewHolder<out BINDING : ViewDataBinding, DATA>(protected val binding: BINDING)
         : RecyclerView.ViewHolder(binding.root) {
         abstract fun bind(item : DATA)
@@ -85,6 +71,6 @@ open class SimpleItemCallback<T : Any>(private val areItemsTheSame : (oldItem: T
      */
     @SuppressLint("DiffUtilEquals")
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-        return oldItem == newItem
+        return (oldItem == newItem)
     }
 }

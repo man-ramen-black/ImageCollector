@@ -4,7 +4,9 @@ import androidx.fragment.app.viewModels
 import com.kakakobank.imagecollector.base.component.BaseFragment
 import com.kakaobank.imagecollector.R
 import com.kakaobank.imagecollector.databinding.FragmentSearchBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment: BaseFragment<FragmentSearchBinding>() {
     private val viewModel: SearchViewModel by viewModels()
     private val adapter by lazy { SearchAdapter(viewModel) }

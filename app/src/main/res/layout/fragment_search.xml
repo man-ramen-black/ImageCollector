@@ -13,6 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- 이 뷰가 없으면 ViewPager에 추가된 Fragment의 ConstraintLayout match_parent가 동작하지 않습니다 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
         <View
             android:id="@+id/search_box"
             android:layout_width="match_parent"
@@ -34,8 +40,8 @@
             app:layout_constraintBottom_toBottomOf="@id/search_box"
             app:layout_constraintLeft_toLeftOf="@id/search_box"
             app:layout_constraintRight_toLeftOf="@id/search_input"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/icon_search"
             />
         
@@ -43,15 +49,15 @@
             android:id="@+id/search_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:importantForAutofill="no"
             app:layout_constraintTop_toTopOf="@id/search_box"
             app:layout_constraintBottom_toBottomOf="@id/search_box"
             app:layout_constraintLeft_toRightOf="@id/search_icon"
             app:layout_constraintRight_toLeftOf="@id/delete_button"
             android:inputType="text"
             android:maxLines="1"
-            android:imeOptions="actionSearch"
             android:text="@={viewModel.searchKeyword}"
-            android:afterTextChanged="@{viewModel::onTextChanged}"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.onTextChanged(text)}"
             />
 
         <ImageButton
@@ -62,12 +68,12 @@
             app:layout_constraintBottom_toBottomOf="@id/search_box"
             app:layout_constraintLeft_toRightOf="@id/search_input"
             app:layout_constraintRight_toRightOf="@id/search_box"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="18dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="18dp"
             android:src="@drawable/icon_delete"
             android:onClick="@{_->viewModel.onClickDelete()}"
             />
-        
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_recycler_view"
             android:layout_width="match_parent"

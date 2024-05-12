@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.jetbrains.kotlin.kapt)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -39,6 +41,15 @@ android {
         buildConfig = true
         dataBinding = true
     }
+
+    kapt {
+        // for Hilt
+        correctErrorTypes = true
+    }
+
+    hilt {
+        enableAggregatingTask = false
+    }
 }
 
 dependencies {
@@ -58,12 +69,16 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     implementation(libs.glide)
-    annotationProcessor(libs.compiler)
+    kapt(libs.glide.compiler)
 
     implementation(libs.kotlinx.serialization.json)
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0") {
         exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-serialization-json")
     }
+
+    implementation(libs.hilt)
+    annotationProcessor(libs.hilt.compiler)
+    kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)
 

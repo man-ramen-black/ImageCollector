@@ -7,7 +7,9 @@ import com.kakakobank.imagecollector.ui.search.SearchFragment
 import com.kakakobank.imagecollector.util.Util.setupWithViewPager2
 import com.kakaobank.imagecollector.R
 import com.kakaobank.imagecollector.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity: BaseActivity<ActivityMainBinding>() {
 
     private val tabs by lazy {

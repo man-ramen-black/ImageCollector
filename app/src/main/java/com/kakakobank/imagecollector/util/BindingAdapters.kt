@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
@@ -55,5 +56,13 @@ object TextViewBindingAdapter {
         }
 
         view.text = text
+    }
+}
+
+object ViewPagerBindingAdapter {
+    @BindingAdapter("userInputEnabled")
+    @JvmStatic
+    fun setUserInputEnabled(view: ViewPager2, enabled: Boolean) {
+        view.isUserInputEnabled = enabled
     }
 }

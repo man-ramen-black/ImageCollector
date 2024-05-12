@@ -3,7 +3,7 @@ package com.kakakobank.imagecollector.ui.search
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import com.kakakobank.imagecollector.base.adapter.BaseListAdapter
-import com.kakakobank.imagecollector.model.Contents
+import com.kakakobank.imagecollector.model.data.Contents
 import com.kakaobank.imagecollector.R
 import com.kakaobank.imagecollector.databinding.ItemSearchBinding
 

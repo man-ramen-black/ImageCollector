@@ -28,4 +28,8 @@ object Util {
             tab.text = tabText?.invoke(tab, position) ?: ""
         }.attach()
     }
+
+    fun <T> T.ifThen(isTrue: Boolean, then: T.() -> Unit): T = apply {
+        if (isTrue) then()
+    }
 }

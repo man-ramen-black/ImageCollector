@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.kakakobank.imagecollector.model.Contents" />
+            type="com.kakakobank.imagecollector.model.data.Contents" />
 
         <variable
             name="viewModel"
@@ -29,7 +29,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@id/type_icon"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             app:cardBackgroundColor="@color/grey_e6"
             app:cardCornerRadius="14dp"
             app:strokeColor="@color/grey_e6"
@@ -51,23 +51,23 @@
             app:layout_constraintTop_toTopOf="@id/thumbnail"
             app:layout_constraintRight_toRightOf="@id/thumbnail"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/icon_like_off"
             android:onClick="@{_->viewModel.onClickFavorite(item)}"
             />
-        
+
         <ImageView
             android:id="@+id/type_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
             app:layout_constraintTop_toTopOf="@id/thumbnail"
             app:layout_constraintBottom_toBottomOf="@id/title"
-            app:layout_constraintLeft_toRightOf="@id/thumbnail"
             app:layout_constraintRight_toLeftOf="@id/title"
-            android:layout_marginRight="4dp"
+            app:layout_constraintLeft_toRightOf="@id/thumbnail"
+            android:layout_marginEnd="4dp"
             android:src="@{item.type.iconResId}"
             />
-        
+
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
@@ -106,7 +106,7 @@
             android:textAppearance="@style/TextAppearance.ImageCollector.Body"
             android:text="@{item.contentsUrl}"
             />
-        
+
         <TextView
             android:id="@+id/datetime"
             android:layout_width="0dp"
