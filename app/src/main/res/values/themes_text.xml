@@ -16,8 +16,13 @@
         <item name="android:textSize" >13sp</item>
     </style>
 
-    <style name="TextAppearance.ImageCollector.Caption" parent="">
+    <style name="TextAppearance.ImageCollector.DateTime.Search" parent="">
         <item name="android:textColor">@color/grey_88</item>"
         <item name="android:textSize" >12sp</item>
+    </style>
+
+    <style name="TextAppearance.ImageCollector.DateTime.Favorite" parent="">
+        <item name="android:textColor">@color/grey_88</item>"
+        <item name="android:textSize" >13sp</item>
     </style>
 </resources>

@@ -105,6 +105,7 @@
             app:layout_constraintLeft_toLeftOf="@id/type_icon"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="8dp"
+            android:maxLines="2"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.ImageCollector.Body"
             android:text="@{item.contents.contentsUrl}"
@@ -119,10 +120,11 @@
             app:layout_constraintLeft_toLeftOf="@id/type_icon"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="8dp"
+            android:maxLines="1"
             android:ellipsize="end"
-            android:textAppearance="@style/TextAppearance.ImageCollector.Caption"
+            android:textAppearance="@style/TextAppearance.ImageCollector.DateTime.Search"
             time="@{item.contents.dateTime}"
-            dateFormat="@{@string/search_date_format}"
+            dateFormat="@{@string/date_format_search}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

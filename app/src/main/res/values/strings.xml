@@ -4,6 +4,8 @@
     <string name="main_tab_search">검색</string>
     <string name="main_tab_favorite">즐겨찾기</string>
 
-    <string name="search_date_format">yyyy년 M월 d일 H시 m분 s초</string>
+    <string name="date_format_search">yyyy년 M월 d일 H시 m분 s초</string>
+    <string name="date_format_favorite">yyyy년 M월 d일</string>
+
     <string name="search_last_page">마지막</string>
 </resources>
