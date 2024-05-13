@@ -1,8 +1,10 @@
 package com.kakakobank.imagecollector.util
 
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.BindingAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -64,5 +66,13 @@ object ViewPagerBindingAdapter {
     @JvmStatic
     fun setUserInputEnabled(view: ViewPager2, enabled: Boolean) {
         view.isUserInputEnabled = enabled
+    }
+}
+
+object ToolbarBindingAdapter {
+    @BindingAdapter("onNavigationClick")
+    @JvmStatic
+    fun setNavigationOnClickListener(view: Toolbar, onClick: ((View)->Unit)?) {
+        view.setNavigationOnClickListener(onClick)
     }
 }

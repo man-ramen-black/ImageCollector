@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="navController"
+            type="androidx.navigation.NavController" />
+        <variable
+            name="viewModel"
+            type="com.kakakobank.imagecollector.ui.detail.DetailViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_f7"
+        >
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{viewModel.content.title}"
+            android:gravity="bottom"
+            app:navigationIcon="@drawable/icon_back"
+            app:titleTextColor="@color/black"
+            onNavigationClick="@{_->navController.navigateUp()}"
+            >
+
+            <!-- 터치 후 데이터 처리가 완료된 다음 이미지가 변경되어야 하므로 CheckBox 대신 ImageButton 사용 -->
+            <ImageButton
+                android:id="@+id/favorite_button"
+                style="@style/Widget.ImagerSearcher.Toolbar.ImageButton"
+                android:src="@{viewModel.isFavorite ? @drawable/icon_like_on : @drawable/icon_like_off}"
+                android:onClick="@{_->viewModel.onClickFavorite()}"
+                />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <ImageView
+            android:id="@+id/thumbnail_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            glideUrl="@{viewModel.content.thumbnail}"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

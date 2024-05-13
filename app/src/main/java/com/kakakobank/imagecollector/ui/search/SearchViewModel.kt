@@ -8,6 +8,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.kakakobank.imagecollector.base.viewmodel.EventViewModel
 import com.kakakobank.imagecollector.model.SearchModel
+import com.kakakobank.imagecollector.util.KBJson
 import com.kakakobank.imagecollector.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -24,6 +25,8 @@ class SearchViewModel @Inject constructor(
     private val model: SearchModel
 ): EventViewModel() {
     companion object {
+        const val EVENT_START_DETAIL = "EVENT_SHOW_DETAIL"
+
         private const val SEARCH_DELAY = 500L
     }
 
@@ -31,7 +34,7 @@ class SearchViewModel @Inject constructor(
 
     val searchFlow = searchKeyword.asFlow()
         .flatMapLatest {
-            delay(500L)
+            delay(SEARCH_DELAY)
             yield()
             Pager(PagingConfig(pageSize = 20)) {
                 SearchPagingSource(model, it)
@@ -39,12 +42,13 @@ class SearchViewModel @Inject constructor(
         }.cachedIn(viewModelScope)
 
     fun onClickFavorite(item: SearchItem.ContentsItem) = viewModelScope.launch {
-        Log.d(item)
+        Log.v(item)
         model.toggleFavorite(item.contents)
     }
 
     fun onClickContents(item: SearchItem.ContentsItem) {
-        Log.e(item)
+        Log.v(item)
+        sendEvent(EVENT_START_DETAIL, KBJson.to(item.contents))
     }
 
     fun onClickDelete() {

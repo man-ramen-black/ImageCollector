@@ -1,15 +1,14 @@
-package com.kakakobank.imagecollector.ui
+package com.kakakobank.imagecollector.ui.main
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import com.kakakobank.imagecollector.base.adapter.BaseFragmentStateAdapter
 
 /**
- * [MainActivity]
+ * [MainFragment]
  */
 class MainTab(val title: String, val createFragment: () -> Fragment)
 
-class MainTabAdapter(activity: FragmentActivity): BaseFragmentStateAdapter<MainTab>(activity) {
+class MainTabAdapter(fragment: Fragment): BaseFragmentStateAdapter<MainTab>(fragment) {
     override fun createFragment(position: Int): Fragment {
         return getItem(position).createFragment()
     }

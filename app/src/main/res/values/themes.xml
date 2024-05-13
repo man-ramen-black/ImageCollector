@@ -30,6 +30,10 @@
 
         <item name="imageButtonStyle">@style/Widget.ImageCollector.ImageButton</item>
         <item name="editTextStyle">@style/Widget.ImageCollector.EditText</item>
+
+        <item name="toolbarStyle">@style/Widget.ImageSearcher.Toolbar</item>
+        <!-- ToolBar 좌상단 네비게이션 버튼 스타일 -->
+        <item name="toolbarNavigationButtonStyle">@style/Widget.ImageSearcher.Toolbar.NavigationButton</item>
     </style>
 
     <style name="Widget.ImageCollector.ImageButton" parent="Widget.AppCompat.ImageButton">
@@ -64,5 +68,36 @@
         <item name="tabGravity">fill</item>
         <item name="tabTextColor">@color/grey_88</item>
         <item name="tabSelectedTextColor">@color/black_22</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
+    <!-- 툴바 스타일 -->
+    <style name="Widget.ImageSearcher.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/white</item>
+        <item name="titleCentered">true</item>
+        <item name="android:minHeight">46dp</item>
+        <item name="maxButtonHeight">46dp</item>
+        <item name="android:paddingStart">11dp</item>
+        <item name="android:paddingEnd">11dp</item>
+        <item name="titleTextAppearance">@style/TextAppearance.ImageCollector.Head</item>
+    </style>
+
+    <!--  툴바 좌상단 NavigationButton 스타일 -->
+    <style name="Widget.ImageSearcher.Toolbar.NavigationButton" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:padding">11dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:adjustViewBounds">true</item>
+    </style>
+
+    <style name="Widget.ImagerSearcher.Toolbar.ImageButton" parent="">
+        <item name="android:layout_width">46dp</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:padding">11dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">fitCenter</item>
     </style>
 </resources>

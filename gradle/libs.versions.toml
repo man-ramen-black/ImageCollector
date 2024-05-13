@@ -14,6 +14,7 @@ lifecycleLivedataKtx = "2.7.0"
 loggingInterceptor = "4.2.1"
 material = "1.12.0"
 navigationFragmentKtx = "2.7.7"
+navigationSafeArgs = "2.5.3"
 preferenceKtx = "1.2.1"
 retrofit = "2.9.0"
 hilt = "2.51.1"
@@ -50,3 +51,4 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kapt" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinxSerializationPlugin" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationSafeArgs" }

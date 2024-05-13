@@ -18,7 +18,6 @@ class FavoriteAdapter(private val viewModel: FavoriteViewModel): BaseListAdapter
         private val viewModel: FavoriteViewModel
     ): BaseViewHolder<ItemFavoriteBinding, Contents>(binding) {
         override fun bind(item: Contents) {
-            Log.e(item)
             binding.item = item
             binding.viewModel = viewModel
         }
