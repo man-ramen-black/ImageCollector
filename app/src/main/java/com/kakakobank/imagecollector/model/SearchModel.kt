@@ -3,10 +3,12 @@ package com.kakakobank.imagecollector.model
 import com.kakakobank.imagecollector.model.data.Contents
 import com.kakakobank.imagecollector.model.data.NetworkResult
 import com.kakakobank.imagecollector.model.data.ServerException
+import com.kakakobank.imagecollector.model.datastore.SearchDataStore
 import com.kakakobank.imagecollector.model.network.search.SearchApi
 import com.kakakobank.imagecollector.model.network.search.SortType
 import com.kakakobank.imagecollector.ui.search.SearchViewModel
 import com.kakakobank.imagecollector.util.Log
+import kotlinx.coroutines.flow.Flow
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -15,7 +17,9 @@ import javax.inject.Inject
 /**
  * [SearchViewModel]
  */
-class SearchModel @Inject constructor() {
+class SearchModel @Inject constructor(
+    private val dataStore: SearchDataStore
+) {
     companion object {
         private const val PAGE_SIZE = 10
         private val SORT_TYPE = SortType.RECENCY
@@ -81,6 +85,21 @@ class SearchModel @Inject constructor() {
                 )
             }
         return NetworkResult.success(result, isEnd to contentsList)
+    }
+
+    fun getFavoriteFlow(): Flow<Set<Contents>> {
+        return dataStore.getFavoriteFlow()
+    }
+
+    suspend fun toggleFavorite(contents: Contents) {
+        val favoriteSet = dataStore.getFavorite()
+            .toMutableSet()
+        if (favoriteSet.contains(contents)) {
+            favoriteSet.remove(contents)
+        } else {
+            favoriteSet.add(contents)
+        }
+        dataStore.updateFavorite(favoriteSet)
     }
 
     private fun toTimeMillis(iso8601: String): Long {

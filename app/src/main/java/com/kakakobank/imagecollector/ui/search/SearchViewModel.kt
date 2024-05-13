@@ -12,6 +12,7 @@ import com.kakakobank.imagecollector.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import javax.inject.Inject
 
@@ -37,8 +38,9 @@ class SearchViewModel @Inject constructor(
             }.flow
         }.cachedIn(viewModelScope)
 
-    fun onClickFavorite(item: SearchItem.ContentsItem) {
-        Log.e(item)
+    fun onClickFavorite(item: SearchItem.ContentsItem) = viewModelScope.launch {
+        Log.d(item)
+        model.toggleFavorite(item.contents)
     }
 
     fun onClickContents(item: SearchItem.ContentsItem) {

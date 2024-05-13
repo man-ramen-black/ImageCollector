@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     implementation(libs.androidx.paging)
+    implementation(libs.androidx.datastore)
 
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

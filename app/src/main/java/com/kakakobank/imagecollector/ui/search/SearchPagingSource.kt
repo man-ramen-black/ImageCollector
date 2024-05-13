@@ -1,12 +1,14 @@
 package com.kakakobank.imagecollector.ui.search
 
+import androidx.lifecycle.asLiveData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.kakakobank.imagecollector.model.SearchModel
-import com.kakakobank.imagecollector.model.data.Contents
+import com.kakakobank.imagecollector.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import java.util.concurrent.atomic.AtomicInteger
@@ -16,6 +18,8 @@ import java.util.concurrent.atomic.AtomicInteger
  */
 class SearchPagingSource(private val searchModel: SearchModel, private val query: String): PagingSource<Int, SearchItem>() {
     private var page = AtomicInteger(1)
+    private val favoriteFlow = searchModel.getFavoriteFlow()
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SearchItem> = withContext(Dispatchers.Main) {
         val loadPage = params.key
             ?.also { page.set(it) }
@@ -24,6 +28,7 @@ class SearchPagingSource(private val searchModel: SearchModel, private val query
         // TODO isEnd 후 미호출 처리 추가
         val imageSearch = async {
             val result = searchModel.searchImage(query, loadPage)
+            Log.d(result)
             yield()
             result
         }
@@ -31,6 +36,7 @@ class SearchPagingSource(private val searchModel: SearchModel, private val query
         // TODO isEnd 후 미호출 처리 추가
         val videoSearch = async {
             val result = searchModel.searchVideo(query, loadPage)
+            Log.d(result)
             yield()
             result
         }
@@ -45,9 +51,15 @@ class SearchPagingSource(private val searchModel: SearchModel, private val query
         val isEnd = results.all { it.response!!.first }
 
         // 리스트 join, 정렬
-        val itemList = results.fold(listOf<Contents>()) { total, item -> total + item.response!!.second }
+        val itemList = results.flatMap { it.response!!.second }
             .sortedByDescending { it.dateTime }
-            .map { SearchItem.ContentsItem(it) }
+            .map { contents ->
+                SearchItem.ContentsItem(
+                    contents,
+                    favoriteFlow.map { it.contains(contents) }
+                        .asLiveData()
+                )
+            }
 
         val listWithDivider = if (loadPage == 1 && itemList.isEmpty() && isEnd) {
             // 첫 페이지에서 검색 결과가 없는 경우 divider를 추가하지 않음

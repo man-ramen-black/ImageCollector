@@ -2,7 +2,9 @@ package com.kakakobank.imagecollector.model.data
 
 import androidx.annotation.DrawableRes
 import com.kakaobank.imagecollector.R
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Contents(
     val type: Type,
     val thumbnail: String,
