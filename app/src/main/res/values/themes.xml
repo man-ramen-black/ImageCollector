@@ -30,10 +30,6 @@
 
         <item name="imageButtonStyle">@style/Widget.ImageCollector.ImageButton</item>
         <item name="editTextStyle">@style/Widget.ImageCollector.EditText</item>
-
-        <item name="toolbarStyle">@style/Widget.ImageSearcher.Toolbar</item>
-        <!-- ToolBar 좌상단 네비게이션 버튼 스타일 -->
-        <item name="toolbarNavigationButtonStyle">@style/Widget.ImageSearcher.Toolbar.NavigationButton</item>
     </style>
 
     <style name="Widget.ImageCollector.ImageButton" parent="Widget.AppCompat.ImageButton">
@@ -57,47 +53,66 @@
     </style>
 
     <!-- 탭 스타일 -->
-    <style name="Widget.ImageCollector.TabLayout.MainTab" parent="">
-        <item name="tabBackground">@null</item>
-        <item name="android:background">@color/white</item>
-        <item name="tabIndicatorHeight">1dp</item>
-        <item name="tabIndicatorColor">@color/black_22</item>
+    <style name="Widget.ImageCollector.TabLayout.MainTab" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="android:background">@null</item>
+
         <item name="tabMaxWidth">0dp</item>
         <item name="tabMinWidth">0dp</item>
         <item name="tabMode">fixed</item>
         <item name="tabGravity">fill</item>
+
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+
+        <item name="tabPaddingTop">11dp</item>
+        <item name="tabPaddingBottom">11dp</item>
+
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabIndicatorColor">@color/black_22</item>
+
+        <item name="tabTextAppearance">@style/TextAppearance.ImageSearcher.TabLayout.MainTab</item>
         <item name="tabTextColor">@color/grey_88</item>
+
+        <item name="tabSelectedTextAppearance">@style/TextAppearance.ImageSearcher.TabLayout.MainTab.Selected</item>
         <item name="tabSelectedTextColor">@color/black_22</item>
-        <item name="android:gravity">bottom</item>
     </style>
 
-    <!-- 툴바 스타일 -->
-    <style name="Widget.ImageSearcher.Toolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="android:background">@color/white</item>
-        <item name="titleCentered">true</item>
-        <item name="android:minHeight">46dp</item>
-        <item name="maxButtonHeight">46dp</item>
-        <item name="android:paddingStart">11dp</item>
-        <item name="android:paddingEnd">11dp</item>
-        <item name="titleTextAppearance">@style/TextAppearance.ImageCollector.Head</item>
+    <style name="Widget.ImagerSearcher.TopBarLayout" parent="">
+        <item name="android:minHeight">@dimen/top_bar_height</item>
+        <item name="android:maxHeight">@dimen/top_bar_height</item>
+        <item name="android:background">@drawable/bg_top_bar</item>
+        <item name="android:orientation">horizontal</item>
     </style>
 
-    <!--  툴바 좌상단 NavigationButton 스타일 -->
-    <style name="Widget.ImageSearcher.Toolbar.NavigationButton" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:padding">11dp</item>
-        <item name="android:scaleType">fitCenter</item>
-        <item name="android:adjustViewBounds">true</item>
-    </style>
+    <style name="Widget.ImagerSearcher.TopBarLayout.ImageButton" parent="">
+        <!-- 터치 영역 고려하여 패딩 10dp 적용 -->
+        <item name="android:padding">10dp</item>
+        <item name="android:minWidth">44dp</item>
+        <item name="android:minHeight">44dp</item>
 
-    <style name="Widget.ImagerSearcher.Toolbar.ImageButton" parent="">
-        <item name="android:layout_width">46dp</item>
-        <item name="android:layout_height">46dp</item>
-        <item name="android:padding">11dp</item>
-        <item name="android:paddingStart">0dp</item>
-        <item name="android:paddingEnd">0dp</item>
-        <item name="android:layout_gravity">bottom|end</item>
-        <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">fitCenter</item>
+        <item name="android:background">@drawable/bt_transparent_circle</item>
+    </style>
+
+    <style name="Widget.ImagerSearcher.TopBarLayout.Title" parent="">
+        <!-- TabLayout 최소 높이와 통일 -->
+        <item name="android:minHeight">48dp</item>
+
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@color/black_22</item>
+        <item name="android:textAppearance">@style/TextAppearance.ImageSearcher.TopBar.Title</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingBottom">11dp</item>
+
+        <!-- 버튼 패딩 고려하여 마진 수치 조정 -->
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
     </style>
 </resources>

@@ -14,33 +14,64 @@
         android:layout_height="match_parent"
         android:background="@color/white_f7"
         >
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+
+        <!-- Toolbar 사용 시 타이틀 상하 마진 적용과 함께 기기 폰트 사이즈 변경 대응, 데이터 바인딩 등 적용이 불가하므로 -->
+        <!-- 요구 스펙에 맞추기 위해 ConstraintLayout으로 구현 -->
+        <!-- 버튼 패딩 고려하여 패딩 수치 조정 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/top_bar"
+            style="@style/Widget.ImagerSearcher.TopBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{viewModel.content.title}"
-            android:gravity="bottom"
-            app:navigationIcon="@drawable/icon_back"
-            app:titleTextColor="@color/black"
-            onNavigationClick="@{_->navController.navigateUp()}"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
             >
+            <ImageButton
+                android:id="@+id/back_button"
+                style="@style/Widget.ImagerSearcher.TopBarLayout.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/title"
+                app:layout_constraintBottom_toBottomOf="@id/title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/title"
+                android:src="@drawable/icon_back"
+                android:onClick="@{_->navController.navigateUp()}"
+                />
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/Widget.ImagerSearcher.TopBarLayout.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/back_button"
+                app:layout_constraintRight_toLeftOf="@id/favorite_button"
+                android:text="@{viewModel.content.title}"
+                />
 
             <!-- 터치 후 데이터 처리가 완료된 다음 이미지가 변경되어야 하므로 CheckBox 대신 ImageButton 사용 -->
             <ImageButton
                 android:id="@+id/favorite_button"
-                style="@style/Widget.ImagerSearcher.Toolbar.ImageButton"
+                style="@style/Widget.ImagerSearcher.TopBarLayout.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/title"
+                app:layout_constraintBottom_toBottomOf="@id/title"
+                app:layout_constraintLeft_toRightOf="@id/title"
+                app:layout_constraintRight_toRightOf="parent"
                 android:src="@{viewModel.isFavorite ? @drawable/icon_like_on : @drawable/icon_like_off}"
                 android:onClick="@{_->viewModel.onClickFavorite()}"
                 />
 
-        </com.google.android.material.appbar.MaterialToolbar>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/thumbnail_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintTop_toBottomOf="@id/top_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             glideUrl="@{viewModel.content.thumbnail}"
             />
