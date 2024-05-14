@@ -19,7 +19,7 @@ class SearchAdapter(private val viewModel: SearchViewModel): BasePagingAdapter<S
         private val viewModel: SearchViewModel
     ): BaseViewHolder<ItemSearchBinding, SearchItem>(binding) {
         override fun bind(item: SearchItem) {
-            binding.item = item as SearchItem.ContentsItem
+            binding.item = item as SearchItem.ContentItem
             binding.viewModel = viewModel
         }
     }
@@ -34,7 +34,7 @@ class SearchAdapter(private val viewModel: SearchViewModel): BasePagingAdapter<S
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is SearchItem.ContentsItem -> VIEW_TYPE_SEARCH_ITEM
+            is SearchItem.ContentItem -> VIEW_TYPE_SEARCH_ITEM
             else -> VIEW_TYPE_DIVIDER
         }
     }

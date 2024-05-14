@@ -5,7 +5,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.black.imagesearcher.base.viewmodel.EventViewModel
 import com.black.imagesearcher.model.SearchModel
-import com.black.imagesearcher.model.data.Contents
+import com.black.imagesearcher.model.data.Content
 import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ class DetailViewModel @Inject constructor(
 ): EventViewModel() {
 
     val content = saveStateHandle.get<String>("contentJson")
-        ?.let { JsonUtil.from(it, Contents::class.java, true) }
+        ?.let { JsonUtil.from(it, Content::class.java, true) }
 
     val isFavorite = model.getFavoriteFlow()
         .map { it.contains(content) }

@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.black.imagesearcher.base.datastore.BaseDataStore
 import com.black.imagesearcher.model.SearchModel
-import com.black.imagesearcher.model.data.Contents
+import com.black.imagesearcher.model.data.Content
 import com.black.imagesearcher.util.JsonUtil
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -30,17 +30,17 @@ class SearchDataStore @Inject constructor(
         return context.searchDataStore
     }
 
-    suspend fun getFavorite(): Set<Contents> {
+    suspend fun getFavorite(): Set<Content> {
         return get(KEY_FAVORITE, "[]")
             .let { JsonUtil.from(it, true) ?: emptySet() }
     }
 
-    fun getFavoriteFlow(): Flow<Set<Contents>> {
+    fun getFavoriteFlow(): Flow<Set<Content>> {
         return flow(KEY_FAVORITE, "[]")
             .map { JsonUtil.from(it, true) ?: emptySet() }
     }
 
-    suspend fun updateFavorite(favoriteSet: Set<Contents>) {
+    suspend fun updateFavorite(favoriteSet: Set<Content>) {
         val updateData = favoriteSet
             .let { JsonUtil.to(it) ?: "" }
         update(KEY_FAVORITE, updateData)

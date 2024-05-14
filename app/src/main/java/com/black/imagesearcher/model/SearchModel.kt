@@ -1,6 +1,6 @@
 package com.black.imagesearcher.model
 
-import com.black.imagesearcher.model.data.Contents
+import com.black.imagesearcher.model.data.Content
 import com.black.imagesearcher.model.data.NetworkResult
 import com.black.imagesearcher.model.data.ServerException
 import com.black.imagesearcher.model.datastore.SearchDataStore
@@ -25,7 +25,7 @@ class SearchModel @Inject constructor(
         private val SORT_TYPE = SortType.RECENCY
     }
 
-    suspend fun searchImage(keyword: String, page: Int): NetworkResult<Pair<Boolean, List<Contents>>> {
+    suspend fun searchImage(keyword: String, page: Int): NetworkResult<Pair<Boolean, List<Content>>> {
         val result = SearchApi.searchImage(
             keyword,
             page,
@@ -42,10 +42,10 @@ class SearchModel @Inject constructor(
             ?: return NetworkResult.failure(result, ServerException("[${result.response?.errorType}] ${result.response?.message}"))
 
         val isEnd = result.response.meta?.isEnd ?: true
-        val contentsList = documents
+        val contentLists = documents
             .map {
-                Contents(
-                    Contents.Type.IMAGE,
+                Content(
+                    Content.Type.IMAGE,
                     it.thumbnailUrl,
                     it.displaySiteName,
                     it.collection,
@@ -53,10 +53,10 @@ class SearchModel @Inject constructor(
                     toTimeMillis(it.datetime)
                 )
             }
-        return NetworkResult.success(result, isEnd to contentsList)
+        return NetworkResult.success(result, isEnd to contentLists)
     }
 
-    suspend fun searchVideo(keyword: String, page: Int): NetworkResult<Pair<Boolean, List<Contents>>> {
+    suspend fun searchVideo(keyword: String, page: Int): NetworkResult<Pair<Boolean, List<Content>>> {
         val result = SearchApi.searchVideo(
             keyword,
             page,
@@ -73,10 +73,10 @@ class SearchModel @Inject constructor(
             ?: return NetworkResult.failure(result, ServerException("[${result.response?.errorType}] ${result.response?.message}"))
 
         val isEnd = result.response.meta?.isEnd ?: true
-        val contentsList = documents
+        val contentLists = documents
             .map {
-                Contents(
-                    Contents.Type.VIDEO,
+                Content(
+                    Content.Type.VIDEO,
                     it.thumbnail,
                     it.title,
                     "",
@@ -84,20 +84,20 @@ class SearchModel @Inject constructor(
                     toTimeMillis(it.datetime)
                 )
             }
-        return NetworkResult.success(result, isEnd to contentsList)
+        return NetworkResult.success(result, isEnd to contentLists)
     }
 
-    fun getFavoriteFlow(): Flow<Set<Contents>> {
+    fun getFavoriteFlow(): Flow<Set<Content>> {
         return dataStore.getFavoriteFlow()
     }
 
-    suspend fun toggleFavorite(contents: Contents) {
+    suspend fun toggleFavorite(content: Content) {
         val favoriteSet = dataStore.getFavorite()
             .toMutableSet()
-        if (favoriteSet.contains(contents)) {
-            favoriteSet.remove(contents)
+        if (favoriteSet.contains(content)) {
+            favoriteSet.remove(content)
         } else {
-            favoriteSet.add(contents)
+            favoriteSet.add(content)
         }
         dataStore.updateFavorite(favoriteSet)
     }

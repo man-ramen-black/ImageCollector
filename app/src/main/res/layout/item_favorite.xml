@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.black.imagesearcher.model.data.Contents" />
+            type="com.black.imagesearcher.model.data.Content" />
 
         <variable
             name="viewModel"
@@ -20,7 +20,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{_->viewModel.onClickContents(item)}"
+        android:onClick="@{_->viewModel.onClickContent(item)}"
         >
 
         <com.google.android.material.card.MaterialCardView

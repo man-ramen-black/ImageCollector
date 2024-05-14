@@ -41,14 +41,14 @@ class SearchViewModel @Inject constructor(
             }.flow
         }.cachedIn(viewModelScope)
 
-    fun onClickFavorite(item: SearchItem.ContentsItem) = viewModelScope.launch {
+    fun onClickFavorite(item: SearchItem.ContentItem) = viewModelScope.launch {
         Log.v(item)
-        model.toggleFavorite(item.contents)
+        model.toggleFavorite(item.content)
     }
 
-    fun onClickContents(item: SearchItem.ContentsItem) {
+    fun onClickContent(item: SearchItem.ContentItem) {
         Log.v(item)
-        sendEvent(EVENT_START_DETAIL, JsonUtil.to(item.contents))
+        sendEvent(EVENT_START_DETAIL, JsonUtil.to(item.content))
     }
 
     fun onClickDelete() {

@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.black.imagesearcher.ui.main.search.SearchItem.ContentsItem" />
+            type="com.black.imagesearcher.ui.main.search.SearchItem.ContentItem" />
 
         <variable
             name="viewModel"
@@ -20,7 +20,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{_->viewModel.onClickContents(item)}"
+        android:onClick="@{_->viewModel.onClickContent(item)}"
         >
 
         <com.google.android.material.card.MaterialCardView
@@ -42,7 +42,7 @@
                 android:id="@+id/thumbnail_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                glideUrl="@{item.contents.thumbnail}"
+                glideUrl="@{item.content.thumbnail}"
                 />
         </com.google.android.material.card.MaterialCardView>
 
@@ -71,7 +71,7 @@
             app:layout_constraintRight_toLeftOf="@id/title"
             app:layout_constraintLeft_toRightOf="@id/thumbnail"
             android:layout_marginEnd="4dp"
-            android:src="@{item.contents.type.iconResId}"
+            android:src="@{item.content.type.iconResId}"
             />
 
         <TextView
@@ -85,7 +85,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.ImageSearcher.Head"
-            android:text="@{item.contents.title}"
+            android:text="@{item.content.title}"
             />
 
         <TextView
@@ -97,7 +97,7 @@
             app:layout_constraintLeft_toRightOf="@id/title"
             app:layout_constraintRight_toRightOf="parent"
             android:textAppearance="@style/TextAppearance.ImageSearcher.Category"
-            android:text="@{item.contents.category}"
+            android:text="@{item.content.category}"
             />
 
         <TextView
@@ -112,7 +112,7 @@
             android:maxLines="2"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.ImageSearcher.Body"
-            android:text="@{item.contents.contentsUrl}"
+            android:text="@{item.content.contentUrl}"
             />
 
         <TextView
@@ -127,7 +127,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.ImageSearcher.DateTime.Search"
-            time="@{item.contents.dateTime}"
+            time="@{item.content.dateTime}"
             dateFormat="@{@string/date_format_search}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

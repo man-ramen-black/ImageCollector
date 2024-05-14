@@ -53,10 +53,10 @@ class SearchPagingSource(private val searchModel: SearchModel, private val query
         // 리스트 join, 정렬
         val itemList = results.flatMap { it.response!!.second }
             .sortedByDescending { it.dateTime }
-            .map { contents ->
-                SearchItem.ContentsItem(
-                    contents,
-                    favoriteFlow.map { it.contains(contents) }
+            .map { content ->
+                SearchItem.ContentItem(
+                    content,
+                    favoriteFlow.map { it.contains(content) }
                         .asLiveData()
                 )
             }
