@@ -4,11 +4,11 @@
     <data>
         <variable
             name="item"
-            type="com.kakakobank.imagecollector.ui.search.SearchItem.ContentsItem" />
+            type="com.black.imagesearcher.ui.main.search.SearchItem.ContentsItem" />
 
         <variable
             name="viewModel"
-            type="com.kakakobank.imagecollector.ui.search.SearchViewModel" />
+            type="com.black.imagesearcher.ui.main.search.SearchViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -84,7 +84,7 @@
             android:layout_marginEnd="4dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textAppearance="@style/TextAppearance.ImageCollector.Head"
+            android:textAppearance="@style/TextAppearance.ImageSearcher.Head"
             android:text="@{item.contents.title}"
             />
 
@@ -96,7 +96,7 @@
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintLeft_toRightOf="@id/title"
             app:layout_constraintRight_toRightOf="parent"
-            android:textAppearance="@style/TextAppearance.ImageCollector.Category"
+            android:textAppearance="@style/TextAppearance.ImageSearcher.Category"
             android:text="@{item.contents.category}"
             />
 
@@ -111,7 +111,7 @@
             android:layout_marginTop="8dp"
             android:maxLines="2"
             android:ellipsize="end"
-            android:textAppearance="@style/TextAppearance.ImageCollector.Body"
+            android:textAppearance="@style/TextAppearance.ImageSearcher.Body"
             android:text="@{item.contents.contentsUrl}"
             />
 
@@ -126,7 +126,7 @@
             android:layout_marginTop="8dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textAppearance="@style/TextAppearance.ImageCollector.DateTime.Search"
+            android:textAppearance="@style/TextAppearance.ImageSearcher.DateTime.Search"
             time="@{item.contents.dateTime}"
             dateFormat="@{@string/date_format_search}"
             />

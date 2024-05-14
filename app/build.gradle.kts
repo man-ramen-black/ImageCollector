@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.kakaobank.imagecollector"
+    namespace = "com.black.imagesearcher"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.kakaobank.imagecollector"
+        applicationId = "com.black.imagesearcher"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

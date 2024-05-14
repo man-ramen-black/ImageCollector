@@ -4,7 +4,7 @@
     <data>
         <variable
             name="adapter"
-            type="com.kakakobank.imagecollector.ui.favorite.FavoriteAdapter" />
+            type="com.black.imagesearcher.ui.main.favorite.FavoriteAdapter" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

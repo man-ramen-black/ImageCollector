@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ImageCollector"
+rootProject.name = "ImageSearcher"
 include(":app")
  

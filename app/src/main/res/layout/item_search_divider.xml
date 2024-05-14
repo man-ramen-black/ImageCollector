@@ -5,7 +5,7 @@
         <import type="android.view.View" />
         <variable
             name="item"
-            type="com.kakakobank.imagecollector.ui.search.SearchItem.PageDivider" />
+            type="com.black.imagesearcher.ui.main.search.SearchItem.PageDivider" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:id="@+id/page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.ImageCollector.Head"
+            android:textAppearance="@style/TextAppearance.ImageSearcher.Head"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

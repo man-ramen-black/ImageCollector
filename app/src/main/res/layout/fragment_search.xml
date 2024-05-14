@@ -4,10 +4,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.kakakobank.imagecollector.ui.search.SearchViewModel" />
+            type="com.black.imagesearcher.ui.main.search.SearchViewModel" />
         <variable
             name="adapter"
-            type="com.kakakobank.imagecollector.ui.search.SearchAdapter" />
+            type="com.black.imagesearcher.ui.main.search.SearchAdapter" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

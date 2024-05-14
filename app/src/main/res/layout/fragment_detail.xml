@@ -7,7 +7,7 @@
             type="androidx.navigation.NavController" />
         <variable
             name="viewModel"
-            type="com.kakakobank.imagecollector.ui.detail.DetailViewModel" />
+            type="com.black.imagesearcher.ui.detail.DetailViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

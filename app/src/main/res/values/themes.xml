@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ImageCollector" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.ImageSearcher" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
 
         <item name="colorPrimary">@color/white</item>
@@ -28,11 +28,11 @@
         <!-- 폰트 패딩 제거 -->
         <item name="android:includeFontPadding">false</item>
 
-        <item name="imageButtonStyle">@style/Widget.ImageCollector.ImageButton</item>
-        <item name="editTextStyle">@style/Widget.ImageCollector.EditText</item>
+        <item name="imageButtonStyle">@style/Widget.ImageSearcher.ImageButton</item>
+        <item name="editTextStyle">@style/Widget.ImageSearcher.EditText</item>
     </style>
 
-    <style name="Widget.ImageCollector.ImageButton" parent="Widget.AppCompat.ImageButton">
+    <style name="Widget.ImageSearcher.ImageButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:button">@null</item>
         <item name="android:background">@null</item>
         <item name="android:adjustViewBounds">true</item>
@@ -40,7 +40,7 @@
     </style>
 
     <!-- https://pluu.github.io/blog/android/2016/10/31/editText-color/ -->
-    <style name="Widget.ImageCollector.EditText" parent="Widget.AppCompat.EditText">
+    <style name="Widget.ImageSearcher.EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/black_22</item>
 
         <!-- API 21 이하 EditText 포커스 없을 때 하단 라인색 -->
@@ -53,7 +53,7 @@
     </style>
 
     <!-- 탭 스타일 -->
-    <style name="Widget.ImageCollector.TabLayout.MainTab" parent="Widget.MaterialComponents.TabLayout">
+    <style name="Widget.ImageSearcher.TabLayout.MainTab" parent="Widget.MaterialComponents.TabLayout">
         <item name="tabBackground">?attr/selectableItemBackground</item>
         <item name="android:background">@null</item>
 

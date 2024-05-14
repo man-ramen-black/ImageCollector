@@ -1,4 +1,4 @@
-package com.kakaobank.imagecollector
+package com.black.imagesearcher
 
 import org.junit.Test
 
