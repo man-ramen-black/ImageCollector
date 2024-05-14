@@ -14,13 +14,33 @@
         android:layout_height="match_parent"
         android:background="@color/white_f7"
         >
-        <com.google.android.material.appbar.MaterialToolbar
+
+<!--        <com.google.android.material.appbar.AppBarLayout-->
+<!--            android:id="@+id/top_bar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            android:elevation="0dp"-->
+<!--            >-->
+
+
+<!--        </com.google.android.material.appbar.AppBarLayout>-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/thumbnail_image"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/top_bar"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            glideUrl="@{viewModel.content.thumbnail}"-->
+<!--            />-->
+
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@{viewModel.content.title}"
-            android:gravity="bottom"
             app:navigationIcon="@drawable/icon_back"
             app:titleTextColor="@color/black"
             onNavigationClick="@{_->navController.navigateUp()}"
@@ -34,15 +54,6 @@
                 android:onClick="@{_->viewModel.onClickFavorite()}"
                 />
 
-        </com.google.android.material.appbar.MaterialToolbar>
-
-        <ImageView
-            android:id="@+id/thumbnail_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            glideUrl="@{viewModel.content.thumbnail}"
-            />
+        </androidx.appcompat.widget.Toolbar>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
