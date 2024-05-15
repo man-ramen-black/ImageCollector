@@ -2,8 +2,8 @@ package com.black.imagesearcher.ui.detail
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.black.imagesearcher.base.component.BaseFragment
 import com.black.imagesearcher.R
+import com.black.imagesearcher.base.component.BaseFragment
 import com.black.imagesearcher.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 

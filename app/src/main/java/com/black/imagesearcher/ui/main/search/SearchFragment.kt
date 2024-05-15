@@ -5,7 +5,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.black.imagesearcher.R
 import com.black.imagesearcher.base.component.BaseFragment
+import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.databinding.FragmentSearchBinding
+import com.black.imagesearcher.ui.detail.DetailFragment
 import com.black.imagesearcher.ui.main.MainFragmentDirections
 import com.black.imagesearcher.util.FragmentExtension.navigate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -64,7 +66,8 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
         super.onReceivedEvent(action, data)
         when (action) {
             SearchViewModel.EVENT_START_DETAIL -> {
-                navigate(MainFragmentDirections.actionMainToDetail(data.toString()))
+                /** [DetailFragment] */
+                navigate(MainFragmentDirections.actionMainToDetail(data as Content))
             }
         }
     }

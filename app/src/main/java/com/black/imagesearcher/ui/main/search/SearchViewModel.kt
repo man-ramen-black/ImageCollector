@@ -70,7 +70,7 @@ class SearchViewModel @Inject constructor(
 
     private fun onClickContent(content: Content) {
         Log.v(content)
-        sendEvent(EVENT_START_DETAIL, JsonUtil.to(content))
+        sendEvent(EVENT_START_DETAIL, content)
     }
 
     private fun onClickFavorite(content: Content) = viewModelScope.launch {

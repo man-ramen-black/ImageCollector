@@ -35,7 +35,7 @@ class FavoriteViewModel @Inject constructor(
 
     private fun onClickContent(content: Content) = viewModelScope.launch {
         Log.v(content)
-        sendEvent(EVENT_SHOW_DETAIL, JsonUtil.to(content))
+        sendEvent(EVENT_SHOW_DETAIL, content)
     }
 
     private fun onClickToggleFavorite(content: Content) = viewModelScope.launch {

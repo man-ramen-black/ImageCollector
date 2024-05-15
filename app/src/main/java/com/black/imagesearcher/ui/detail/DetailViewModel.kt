@@ -23,8 +23,7 @@ class DetailViewModel @Inject constructor(
     saveStateHandle: SavedStateHandle
 ): EventViewModel() {
 
-    val content = saveStateHandle.get<String>("contentJson")
-        ?.let { JsonUtil.from(it, Content::class.java, true) }
+    val content = saveStateHandle.get<Content>("content")
 
     val isFavorite = model.getFavoriteFlow()
         .map { it.contains(content) }

@@ -26,8 +26,8 @@
         android:name="com.black.imagesearcher.ui.detail.DetailFragment"
         tools:layout="@layout/fragment_detail">
         <argument
-            android:name="contentJson"
-            app:argType="string"
+            android:name="content"
+            app:argType="com.black.imagesearcher.data.model.Content"
             />
     </fragment>
 

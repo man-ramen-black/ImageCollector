@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.jetbrains.kotlin.kapt)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.jetbrains.kotlin.parcelize)
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.androidx.navigation.safeargs)
 }

@@ -2,11 +2,13 @@ package com.black.imagesearcher.ui.main.favorite
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.black.imagesearcher.R
 import com.black.imagesearcher.base.component.BaseFragment
+import com.black.imagesearcher.data.model.Content
+import com.black.imagesearcher.databinding.FragmentFavoriteBinding
+import com.black.imagesearcher.ui.detail.DetailFragment
 import com.black.imagesearcher.ui.main.MainFragmentDirections
 import com.black.imagesearcher.util.FragmentExtension.navigate
-import com.black.imagesearcher.R
-import com.black.imagesearcher.databinding.FragmentFavoriteBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -31,7 +33,8 @@ class FavoriteFragment: BaseFragment<FragmentFavoriteBinding>() {
     override fun onReceivedEvent(action: String, data: Any?) {
         when (action) {
             FavoriteViewModel.EVENT_SHOW_DETAIL -> {
-                navigate(MainFragmentDirections.actionMainToDetail(data.toString()))
+                /** [DetailFragment] */
+                navigate(MainFragmentDirections.actionMainToDetail(data as Content))
             }
         }
     }
