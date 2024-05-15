@@ -30,6 +30,8 @@ class SearchViewModel @Inject constructor(
         const val EVENT_START_DETAIL = "EVENT_SHOW_DETAIL"
     }
 
+    val isProgress = MutableLiveData(false)
+    val isResultEmpty = MutableLiveData(false)
     val searchKeyword = MutableLiveData<String>()
 
     private val favoriteFlow = model.getFavoriteFlow()
