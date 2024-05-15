@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View" />
+        <import type="com.black.imagesearcher.ui.main.search.SearchItem.PageDivider" />
         <variable
             name="item"
             type="com.black.imagesearcher.ui.main.search.SearchItem.PageDivider" />
@@ -23,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:text='@{item.page == 0 ? @string/search_last_page : (item.page + "")}'
+            android:text='@{item.page == PageDivider.PAGE_LAST ? @string/search_last_page : (item.page + "")}'
             />
         
         <View
@@ -34,7 +35,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="12dp"
             android:background="@color/grey_e6"
-            android:visibility="@{item.page == 0 ? View.GONE : View.VISIBLE}"
+            android:visibility="@{item.page == PageDivider.PAGE_LAST ? View.GONE : View.VISIBLE}"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

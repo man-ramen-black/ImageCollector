@@ -1,19 +1,28 @@
 package com.black.imagesearcher.model
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.black.imagesearcher.model.data.Content
 import com.black.imagesearcher.model.data.Contents
 import com.black.imagesearcher.model.data.NetworkResult
+import com.black.imagesearcher.model.data.PagingContent
 import com.black.imagesearcher.model.data.ServerError
 import com.black.imagesearcher.model.data.TypeContents
 import com.black.imagesearcher.model.datastore.SearchDataStore
 import com.black.imagesearcher.model.network.search.SearchApi
 import com.black.imagesearcher.model.network.search.SortType
+import com.black.imagesearcher.ui.main.search.SearchPagingSource
 import com.black.imagesearcher.ui.main.search.SearchViewModel
 import com.black.imagesearcher.util.Log
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import java.text.ParseException
@@ -31,11 +40,24 @@ class SearchModel @Inject constructor(
     companion object {
         private const val PAGE_SIZE = 10
         private val SORT_TYPE = SortType.RECENCY
+        private const val SEARCH_DELAY = 500L
     }
 
     private val searchEndCache = SearchEndCache()
 
-    suspend fun searchAll(keyword: String, page: Int): Result<Contents> = withContext(Dispatchers.IO)  {
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+    fun getSearchPagingFlow(searchKeywordFlow: Flow<String>): Flow<PagingData<PagingContent>> {
+        return searchKeywordFlow
+            // 타이핑 즉시 검색을 막기 위해 딜레이 적용
+            .debounce(SEARCH_DELAY)
+            .flatMapLatest { keyword ->
+                Pager(PagingConfig(pageSize = PAGE_SIZE * Content.Type.entries.count())) {
+                    SearchPagingSource { searchAll(keyword, it) }
+                }.flow
+            }
+    }
+
+    private suspend fun searchAll(keyword: String, page: Int): Result<Contents> = withContext(Dispatchers.IO)  {
         val asyncList = Content.Type.entries
             // 검색이 끝나지 않은 타입만 조회
             .filter { !searchEndCache.isEnd(keyword, it) }
@@ -63,7 +85,7 @@ class SearchModel @Inject constructor(
             // 결과에서 contents를 추출해서
             results.mapNotNull { it.data }
             // Contents를 합치고
-            .fold(Contents(emptyList(), false)) { total, item ->
+            .fold(Contents(emptyList(), true)) { total, item ->
                 Contents(total.contents + item.contents, total.isEnd && item.isEnd)
             }
             // dateTime 최신순으로 정렬
@@ -146,7 +168,7 @@ class SearchModel @Inject constructor(
                     toTimeMillis(it.datetime)
                 )
             }
-        return NetworkResult.Success(TypeContents(Content.Type.IMAGE, contentsList, isEnd), result.response)
+        return NetworkResult.Success(TypeContents(Content.Type.VIDEO, contentsList, isEnd), result.response)
     }
 
     fun getFavoriteFlow(): Flow<Set<Content>> {

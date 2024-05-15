@@ -19,5 +19,6 @@ data class Content(
     }
 }
 
+data class PagingContent(val page: Int, val content: Content)
 data class Contents(val contents: List<Content>, val isEnd: Boolean)
 data class TypeContents(val type: Content.Type, val contents: List<Content>, val isEnd: Boolean)
