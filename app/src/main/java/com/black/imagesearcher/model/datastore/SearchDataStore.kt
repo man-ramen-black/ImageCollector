@@ -42,7 +42,7 @@ class SearchDataStore @Inject constructor(
 
     suspend fun updateFavorite(favoriteSet: Set<Content>) {
         val updateData = favoriteSet
-            .let { JsonUtil.to(it) ?: "" }
+            .let { JsonUtil.to(it, true) ?: return }
         update(KEY_FAVORITE, updateData)
     }
 }

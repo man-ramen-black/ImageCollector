@@ -12,6 +12,7 @@ import com.black.imagesearcher.model.data.TypeContents
 import com.black.imagesearcher.model.datastore.SearchDataStore
 import com.black.imagesearcher.model.network.search.SearchApi
 import com.black.imagesearcher.model.network.search.SortType
+import com.black.imagesearcher.model.preferences.SearchPreferences
 import com.black.imagesearcher.ui.main.search.SearchPagingSource
 import com.black.imagesearcher.ui.main.search.SearchViewModel
 import com.black.imagesearcher.util.Log
@@ -35,7 +36,8 @@ import javax.inject.Inject
  * [SearchViewModel]
  */
 class SearchModel @Inject constructor(
-    private val dataStore: SearchDataStore
+    private val dataStore: SearchDataStore,
+    private val preferences: SearchPreferences
 ) {
     companion object {
         private const val PAGE_SIZE = 10
@@ -172,18 +174,21 @@ class SearchModel @Inject constructor(
     }
 
     fun getFavoriteFlow(): Flow<Set<Content>> {
-        return dataStore.getFavoriteFlow()
+//        return dataStore.getFavoriteFlow()
+        return preferences.getFavoriteFlow()
     }
 
     suspend fun toggleFavorite(content: Content) {
-        val favoriteSet = dataStore.getFavorite()
+//        val favoriteSet = dataStore.getFavorite()
+        val favoriteSet = preferences.getFavorite()
             .toMutableSet()
         if (favoriteSet.contains(content)) {
             favoriteSet.remove(content)
         } else {
             favoriteSet.add(content)
         }
-        dataStore.updateFavorite(favoriteSet)
+//        dataStore.updateFavorite(favoriteSet)
+        preferences.updateFavorite(favoriteSet)
     }
 
     private fun toTimeMillis(iso8601: String): Long {
