@@ -11,21 +11,17 @@ import com.black.imagesearcher.databinding.ItemFavoriteBinding
 /**
  * [FavoriteFragment]
  **/
-class FavoriteAdapter(private val viewModel: FavoriteViewModel): BaseListAdapter<Content>() {
-    class ViewHolder(
-        binding: ItemFavoriteBinding,
-        private val viewModel: FavoriteViewModel
-    ): BaseViewHolder<ItemFavoriteBinding, Content>(binding) {
-        override fun bind(item: Content) {
+class FavoriteAdapter: BaseListAdapter<FavoriteItem>() {
+    class ViewHolder(binding: ItemFavoriteBinding): BaseViewHolder<ItemFavoriteBinding, FavoriteItem>(binding) {
+        override fun bind(item: FavoriteItem) {
             binding.item = item
-            binding.viewModel = viewModel
         }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<ViewDataBinding, Content> {
-        return ViewHolder(inflateForViewHolder(parent, R.layout.item_favorite), viewModel)
+    ): BaseViewHolder<ViewDataBinding, FavoriteItem> {
+        return ViewHolder(inflateForViewHolder(parent, R.layout.item_favorite))
     }
 }

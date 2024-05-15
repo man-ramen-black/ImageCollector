@@ -10,6 +10,7 @@ import androidx.paging.insertSeparators
 import androidx.paging.map
 import com.black.imagesearcher.base.viewmodel.EventViewModel
 import com.black.imagesearcher.data.SearchRepository
+import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +42,9 @@ class SearchViewModel @Inject constructor(
                     it.page,
                     // 좋아요 부분만 on/off되도록 flow -> liveData 적용
                     favoriteFlow.map { favorite -> favorite.contains(it.content) }
-                        .asLiveData()
+                        .asLiveData(),
+                    { content -> onClickContent(content) },
+                    { content -> onClickFavorite(content) },
                 ) as SearchItem
             }
         }
@@ -63,14 +66,14 @@ class SearchViewModel @Inject constructor(
         }
         .cachedIn(viewModelScope)
 
-    fun onClickFavorite(item: SearchItem.ContentItem) = viewModelScope.launch {
-        Log.v(item)
-        model.toggleFavorite(item.content)
+    private fun onClickContent(content: Content) {
+        Log.v(content)
+        sendEvent(EVENT_START_DETAIL, JsonUtil.to(content))
     }
 
-    fun onClickContent(item: SearchItem.ContentItem) {
-        Log.v(item)
-        sendEvent(EVENT_START_DETAIL, JsonUtil.to(item.content))
+    private fun onClickFavorite(content: Content) = viewModelScope.launch {
+        Log.v(content)
+        model.toggleFavorite(content)
     }
 
     fun onClickDelete() {

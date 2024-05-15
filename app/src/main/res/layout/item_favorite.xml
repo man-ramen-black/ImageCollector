@@ -4,11 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.black.imagesearcher.data.model.Content" />
-
-        <variable
-            name="viewModel"
-            type="com.black.imagesearcher.ui.main.favorite.FavoriteViewModel" />
+            type="com.black.imagesearcher.ui.main.favorite.FavoriteItem" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -20,7 +16,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{_->viewModel.onClickContent(item)}"
+        android:onClick="@{_->item.onItemClick.invoke(item.content)}"
         >
 
         <com.google.android.material.card.MaterialCardView
@@ -42,7 +38,7 @@
                 android:id="@+id/thumbnail_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                glideUrl="@{item.thumbnail}"
+                glideUrl="@{item.content.thumbnail}"
                 />
         </com.google.android.material.card.MaterialCardView>
 
@@ -58,7 +54,7 @@
             android:padding="2dp"
             android:background="@drawable/bt_transparent_circle"
             android:src="@drawable/icon_like_on"
-            android:onClick="@{_->viewModel.onClickToggleFavorite(item)}"
+            android:onClick="@{_->item.onClickFavorite.invoke(item.content)}"
             />
 
         <ImageView
@@ -70,7 +66,7 @@
             app:layout_constraintLeft_toLeftOf="@id/thumbnail"
             app:layout_constraintRight_toLeftOf="@id/title"
             android:layout_marginEnd="4dp"
-            android:src="@{item.type.iconResId}"
+            android:src="@{item.content.type.iconResId}"
             />
 
         <TextView
@@ -85,7 +81,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.ImageSearcher.Head"
-            android:text="@{item.title}"
+            android:text="@{item.content.title}"
             />
 
         <TextView
@@ -100,7 +96,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.ImageSearcher.DateTime.Favorite"
-            time="@{item.dateTime}"
+            time="@{item.content.dateTime}"
             dateFormat="@{@string/date_format_favorite}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
     override val layoutResId: Int = R.layout.fragment_search
 
     override fun onBindVariable(binding: FragmentSearchBinding) {
-        adapter = SearchAdapter(viewModel)
+        adapter = SearchAdapter()
         binding.viewModel = viewModel
         binding.adapter = adapter
         viewModel.observeEvent(viewLifecycleOwner, this)

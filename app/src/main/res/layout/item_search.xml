@@ -5,10 +5,6 @@
         <variable
             name="item"
             type="com.black.imagesearcher.ui.main.search.SearchItem.ContentItem" />
-
-        <variable
-            name="viewModel"
-            type="com.black.imagesearcher.ui.main.search.SearchViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,7 +16,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{_->viewModel.onClickContent(item)}"
+        android:onClick="@{_->item.onItemClick.invoke(item.content)}"
         >
 
         <com.google.android.material.card.MaterialCardView
@@ -59,7 +55,7 @@
             android:padding="2dp"
             android:background="@drawable/bt_transparent_circle"
             android:src="@{item.isFavorite ? @drawable/icon_like_on : @drawable/icon_like_off}"
-            android:onClick="@{_->viewModel.onClickFavorite(item)}"
+            android:onClick="@{_->item.onClickFavorite.invoke(item.content)}"
             />
 
         <ImageView

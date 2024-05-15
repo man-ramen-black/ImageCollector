@@ -7,6 +7,7 @@ import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,13 +23,22 @@ class FavoriteViewModel @Inject constructor(
     }
 
     val favoriteFlow = model.getFavoriteFlow()
+        .map { favorite ->
+            favorite.map { content ->
+                FavoriteItem(
+                    content,
+                    { onClickContent(it) },
+                    { onClickToggleFavorite(it) }
+                )
+            }
+        }
 
-    fun onClickContent(content: Content) = viewModelScope.launch {
+    private fun onClickContent(content: Content) = viewModelScope.launch {
         Log.v(content)
         sendEvent(EVENT_SHOW_DETAIL, JsonUtil.to(content))
     }
 
-    fun onClickToggleFavorite(content: Content) = viewModelScope.launch {
+    private fun onClickToggleFavorite(content: Content) = viewModelScope.launch {
         Log.v(content)
         model.toggleFavorite(content)
     }

@@ -19,7 +19,7 @@ class FavoriteFragment: BaseFragment<FragmentFavoriteBinding>() {
     override val layoutResId: Int = R.layout.fragment_favorite
 
     override fun onBindVariable(binding: FragmentFavoriteBinding) {
-        adapter = FavoriteAdapter(viewModel)
+        adapter = FavoriteAdapter()
         binding.adapter = adapter
         viewModel.observeEvent(viewLifecycleOwner, this)
 
