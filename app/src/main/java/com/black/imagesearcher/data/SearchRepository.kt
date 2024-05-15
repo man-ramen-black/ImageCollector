@@ -60,6 +60,10 @@ class SearchRepository @Inject constructor(
     }
 
     private suspend fun searchAll(keyword: String, page: Int): Result<Contents> = withContext(Dispatchers.IO)  {
+        if (keyword.isEmpty()) {
+            return@withContext Result.success(Contents(emptyList(), true))
+        }
+
         val asyncList = Content.Type.entries
             // 검색이 끝나지 않은 타입만 조회
             .filter { !searchEndCache.isEnd(keyword, it) }

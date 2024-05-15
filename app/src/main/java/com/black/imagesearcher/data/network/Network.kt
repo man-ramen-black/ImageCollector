@@ -25,6 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.InterruptedIOException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import java.net.UnknownHostException
 import java.util.concurrent.CancellationException
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
@@ -243,6 +244,12 @@ class NetworkResultCall<T>(private val proxy: Call<T>, private val type: Type, p
                 t.printStackTrace()
                 return NetworkResult.Error(CancellationException())
             }
+
+            // 네트워크 연결 끊김
+            is UnknownHostException -> {
+                t.printStackTrace()
+                return NetworkResult.Error(t)
+            }
         }
 
         return try {
@@ -376,4 +383,4 @@ class JsonConverterFactory(
     }
 }
 
-class UnknownNetworkException(val exception: Throwable) : Throwable()
+class UnknownNetworkException(cause: Throwable) : Throwable(cause)

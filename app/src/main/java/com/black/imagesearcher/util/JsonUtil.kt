@@ -186,11 +186,4 @@ object JsonUtil {
     }
 }
 
-class JsonUtilParseException(val exception: Throwable): Throwable() {
-    override val message: String?
-        get() = exception.message
-
-    override fun printStackTrace() {
-        exception.printStackTrace()
-    }
-}
+class JsonUtilParseException(cause: Throwable): Throwable(cause)
