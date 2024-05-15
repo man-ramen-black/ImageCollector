@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import com.black.imagesearcher.base.adapter.BaseListAdapter
 import com.black.imagesearcher.base.adapter.BaseViewHolder
-import com.black.imagesearcher.model.data.Content
+import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.R
 import com.black.imagesearcher.databinding.ItemFavoriteBinding
 

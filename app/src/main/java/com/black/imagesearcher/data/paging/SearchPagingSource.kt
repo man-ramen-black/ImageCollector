@@ -1,9 +1,9 @@
-package com.black.imagesearcher.ui.main.search
+package com.black.imagesearcher.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.black.imagesearcher.model.data.Contents
-import com.black.imagesearcher.model.data.PagingContent
+import com.black.imagesearcher.data.model.Contents
+import com.black.imagesearcher.data.model.PagingContent
 import java.util.concurrent.atomic.AtomicInteger
 
 /**

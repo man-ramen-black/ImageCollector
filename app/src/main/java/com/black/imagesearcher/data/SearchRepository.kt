@@ -1,19 +1,19 @@
-package com.black.imagesearcher.model
+package com.black.imagesearcher.data
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.black.imagesearcher.model.data.Content
-import com.black.imagesearcher.model.data.Contents
-import com.black.imagesearcher.model.data.NetworkResult
-import com.black.imagesearcher.model.data.PagingContent
-import com.black.imagesearcher.model.data.ServerError
-import com.black.imagesearcher.model.data.TypeContents
-import com.black.imagesearcher.model.datastore.SearchDataStore
-import com.black.imagesearcher.model.network.search.SearchApi
-import com.black.imagesearcher.model.network.search.SortType
-import com.black.imagesearcher.model.preferences.SearchPreferences
-import com.black.imagesearcher.ui.main.search.SearchPagingSource
+import com.black.imagesearcher.data.model.Content
+import com.black.imagesearcher.data.model.Contents
+import com.black.imagesearcher.data.model.NetworkResult
+import com.black.imagesearcher.data.model.PagingContent
+import com.black.imagesearcher.data.model.ServerError
+import com.black.imagesearcher.data.model.TypeContents
+import com.black.imagesearcher.data.datastore.SearchDataStore
+import com.black.imagesearcher.data.network.search.SearchApi
+import com.black.imagesearcher.data.network.search.SortType
+import com.black.imagesearcher.data.preferences.SearchPreferences
+import com.black.imagesearcher.data.paging.SearchPagingSource
 import com.black.imagesearcher.ui.main.search.SearchViewModel
 import com.black.imagesearcher.util.Log
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +35,7 @@ import javax.inject.Inject
 /**
  * [SearchViewModel]
  */
-class SearchModel @Inject constructor(
+class SearchRepository @Inject constructor(
     private val dataStore: SearchDataStore,
     private val preferences: SearchPreferences
 ) {

@@ -1,4 +1,4 @@
-package com.black.imagesearcher.model.network.search
+package com.black.imagesearcher.data.network.search
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

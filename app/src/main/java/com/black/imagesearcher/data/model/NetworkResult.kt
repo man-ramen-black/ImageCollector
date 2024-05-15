@@ -1,4 +1,4 @@
-package com.black.imagesearcher.model.data
+package com.black.imagesearcher.data.model
 
 sealed class NetworkResult<T> private constructor(open val data: T?, open val response: okhttp3.Response?, open val exception: Throwable?) {
     data class Success<T>(

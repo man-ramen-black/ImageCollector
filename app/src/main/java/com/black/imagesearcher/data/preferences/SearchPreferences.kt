@@ -1,10 +1,10 @@
-package com.black.imagesearcher.model.preferences
+package com.black.imagesearcher.data.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.black.imagesearcher.base.model.BasePreferences
-import com.black.imagesearcher.base.model.preferences
-import com.black.imagesearcher.model.data.Content
+import com.black.imagesearcher.base.data.BasePreferences
+import com.black.imagesearcher.base.data.preferences
+import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.util.JsonUtil
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow

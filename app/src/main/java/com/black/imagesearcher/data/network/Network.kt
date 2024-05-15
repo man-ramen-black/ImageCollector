@@ -1,7 +1,7 @@
-package com.black.imagesearcher.model.network
+package com.black.imagesearcher.data.network
 
 import com.black.imagesearcher.BuildConfig
-import com.black.imagesearcher.model.data.NetworkResult
+import com.black.imagesearcher.data.model.NetworkResult
 import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
 import com.black.imagesearcher.util.Util.ifThen

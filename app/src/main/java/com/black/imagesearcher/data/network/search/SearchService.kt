@@ -1,7 +1,7 @@
-package com.black.imagesearcher.model.network.search
+package com.black.imagesearcher.data.network.search
 
-import com.black.imagesearcher.model.data.NetworkResult
-import com.black.imagesearcher.model.network.KotlinSerialization
+import com.black.imagesearcher.data.model.NetworkResult
+import com.black.imagesearcher.data.network.KotlinSerialization
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query

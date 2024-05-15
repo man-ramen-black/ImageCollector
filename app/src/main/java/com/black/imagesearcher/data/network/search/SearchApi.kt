@@ -1,7 +1,7 @@
-package com.black.imagesearcher.model.network.search
+package com.black.imagesearcher.data.network.search
 
-import com.black.imagesearcher.model.data.NetworkResult
-import com.black.imagesearcher.model.network.Network
+import com.black.imagesearcher.data.model.NetworkResult
+import com.black.imagesearcher.data.network.Network
 
 object SearchApi {
     suspend fun searchImage(

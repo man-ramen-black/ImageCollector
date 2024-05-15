@@ -1,4 +1,4 @@
-package com.black.imagesearcher.base.model
+package com.black.imagesearcher.base.data
 
 import android.content.Context
 import android.content.SharedPreferences

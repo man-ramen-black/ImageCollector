@@ -1,4 +1,4 @@
-package com.black.imagesearcher.model.data
+package com.black.imagesearcher.data.model
 
 import androidx.annotation.DrawableRes
 import com.black.imagesearcher.R

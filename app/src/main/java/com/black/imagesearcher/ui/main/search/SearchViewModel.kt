@@ -9,7 +9,7 @@ import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.map
 import com.black.imagesearcher.base.viewmodel.EventViewModel
-import com.black.imagesearcher.model.SearchModel
+import com.black.imagesearcher.data.SearchRepository
 import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +23,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val model: SearchModel
+    private val model: SearchRepository
 ): EventViewModel() {
     companion object {
         const val EVENT_START_DETAIL = "EVENT_SHOW_DETAIL"

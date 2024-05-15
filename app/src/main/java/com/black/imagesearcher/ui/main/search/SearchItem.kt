@@ -1,7 +1,7 @@
 package com.black.imagesearcher.ui.main.search
 
 import androidx.lifecycle.LiveData
-import com.black.imagesearcher.model.data.Content
+import com.black.imagesearcher.data.model.Content
 
 sealed class SearchItem {
     data class ContentItem(val content: Content, val page: Int, val isFavorite: LiveData<Boolean>) : SearchItem()

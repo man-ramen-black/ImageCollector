@@ -1,4 +1,4 @@
-package com.black.imagesearcher.model.datastore
+package com.black.imagesearcher.data.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -6,8 +6,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.black.imagesearcher.base.datastore.BaseDataStore
-import com.black.imagesearcher.model.SearchModel
-import com.black.imagesearcher.model.data.Content
+import com.black.imagesearcher.data.SearchRepository
+import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.util.JsonUtil
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
- * [SearchModel]
+ * [SearchRepository]
  */
 class SearchDataStore @Inject constructor(
     @ApplicationContext context: Context
