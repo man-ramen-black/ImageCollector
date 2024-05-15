@@ -8,7 +8,17 @@ import com.black.imagesearcher.R
 import com.black.imagesearcher.databinding.ItemSearchBinding
 import com.black.imagesearcher.databinding.ItemSearchDividerBinding
 
-class SearchAdapter: BasePagingAdapter<SearchItem>() {
+class SearchAdapter: BasePagingAdapter<SearchItem>({ old, new ->
+    when {
+        old is SearchItem.ContentItem && new is SearchItem.ContentItem -> {
+            old.content == new.content
+        }
+        old is SearchItem.PageDivider && new is SearchItem.PageDivider -> {
+            old.page == new.page
+        }
+        else -> false
+    }
+}) {
     companion object {
         private const val VIEW_TYPE_SEARCH_ITEM = 0
         private const val VIEW_TYPE_DIVIDER = 1

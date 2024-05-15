@@ -24,7 +24,6 @@ abstract class BasePreferences(private val context: Context) {
             preferences.registerOnSharedPreferenceChangeListener(listener)
 
             awaitClose {
-                Log.d("flow close")
                 preferences.unregisterOnSharedPreferenceChangeListener(listener)
             }
         }

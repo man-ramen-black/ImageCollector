@@ -23,6 +23,7 @@ class FavoriteFragment: BaseFragment<FragmentFavoriteBinding>() {
     override fun onBindVariable(binding: FragmentFavoriteBinding) {
         adapter = FavoriteAdapter()
         binding.adapter = adapter
+        binding.viewModel = viewModel
         viewModel.observeEvent(viewLifecycleOwner, this)
 
         lifecycleScope.launch {

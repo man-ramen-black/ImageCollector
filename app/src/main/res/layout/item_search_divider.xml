@@ -11,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="12dp"
         android:paddingBottom="15dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -35,7 +36,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="12dp"
             android:background="@color/grey_e6"
-            android:visibility="@{item.page == PageDivider.PAGE_LAST ? View.GONE : View.VISIBLE}"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,4 +13,6 @@
     <string name="search_last_page">마지막</string>
     <string name="search_empty_message">검색 결과가 없습니다.</string>
     <string name="search_error_message">검색 중 에러가 발생하였습니다.\n%s</string>
+
+    <string name="favorite_empty_message">보관된 항목이 없습니다.</string>
 </resources>

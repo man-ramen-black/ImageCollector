@@ -1,15 +1,14 @@
 package com.black.imagesearcher.ui.main.favorite
 
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.asLiveData
 import com.black.imagesearcher.base.viewmodel.EventViewModel
 import com.black.imagesearcher.data.SearchRepository
 import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.util.Log
-import com.black.imagesearcher.util.Util.isNotCompleted
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -33,6 +32,11 @@ class FavoriteViewModel @Inject constructor(
                 )
             }
         }
+
+    val isEmpty = favoriteFlow
+        .map { it.isEmpty() }
+        .distinctUntilChanged()
+        .asLiveData()
 
     private fun onClickContent(content: Content) {
         Log.v(content)
