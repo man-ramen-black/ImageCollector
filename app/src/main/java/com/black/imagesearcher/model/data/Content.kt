@@ -18,3 +18,6 @@ data class Content(
         VIDEO(R.drawable.icon_video)
     }
 }
+
+data class Contents(val contents: List<Content>, val isEnd: Boolean)
+data class TypeContents(val type: Content.Type, val contents: List<Content>, val isEnd: Boolean)

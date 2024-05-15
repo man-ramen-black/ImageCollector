@@ -54,31 +54,45 @@ object JsonUtil {
      */
     fun <T> from(json: String, cls: Class<T>, isKotlinSerialize: Boolean = false): T? {
         return if (isKotlinSerialize) {
-            @Suppress("UNCHECKED_CAST")
             tryForKS {
-                val serializer = (kotlinSerialization.serializersModule.serializer(cls) as? KSerializer<T>)
-                    ?: return@tryForKS null
-                kotlinSerialization.decodeFromString(serializer, json)
-            }
+                fromNotNull(json, cls, true)
+            }.getOrNull()
         } else {
             tryForGson {
+                fromNotNull(json, cls, false)
+            }.getOrNull()
+        }
+    }
+
+    fun <T> fromNotNull(json: String, cls: Class<T>, isKotlinSerialize: Boolean = false): T {
+        return if (isKotlinSerialize) {
+            @Suppress("UNCHECKED_CAST")
+            val serializer = (kotlinSerialization.serializersModule.serializer(cls) as KSerializer<T>)
+            kotlinSerialization.decodeFromString(serializer, json)
+        } else {
                 gson.fromJson(json, cls)
-            }
         }
     }
 
     fun <T> from(json: String, type: Type, isKotlinSerialize: Boolean = false): T? {
         return if (isKotlinSerialize) {
-            @Suppress("UNCHECKED_CAST")
-            tryForKS {
-                val serializer = (kotlinSerialization.serializersModule.serializer(type) as? KSerializer<T>)
-                    ?: return@tryForKS null
-                kotlinSerialization.decodeFromString(serializer, json)
-            }
+            tryForKS<T> {
+                fromNotNull(json, type, true)
+            }.getOrNull()
         } else {
-            tryForGson {
-                gson.fromJson(json, type)
-            }
+            tryForGson<T> {
+                fromNotNull(json, type, false)
+            }.getOrNull()
+        }
+    }
+
+    fun <T> fromNotNull(json: String, type: Type, isKotlinSerialize: Boolean = false): T {
+        return if (isKotlinSerialize) {
+            @Suppress("UNCHECKED_CAST")
+            val serializer = (kotlinSerialization.serializersModule.serializer(type) as KSerializer<T>)
+            kotlinSerialization.decodeFromString(serializer, json)
+        } else {
+            gson.fromJson(json, type)
         }
     }
 
@@ -87,13 +101,13 @@ object JsonUtil {
      */
     inline fun <reified T> from(json: String, isKotlinSerialize: Boolean = false): T? {
         return if (isKotlinSerialize) {
-            tryForKS {
+            tryForKS<T> {
                 kotlinSerialization.decodeFromString(json)
-            }
+            }.getOrNull()
         } else {
-            tryForGson {
+            tryForGson<T> {
                 gson.fromJson(json, object: TypeToken<T>(){}.type)
-            }
+            }.getOrNull()
         }
     }
 
@@ -107,11 +121,11 @@ object JsonUtil {
                 val serializer = (kotlinSerialization.serializersModule.serializer(type) as? KSerializer<T>)
                     ?: return@tryForKS null
                 kotlinSerialization.encodeToString(serializer, data)
-            }
+            }.getOrNull()
         } else {
             tryForGson {
                 gson.toJson(data, type)
-            }
+            }.getOrNull()
         }
     }
 
@@ -122,42 +136,45 @@ object JsonUtil {
         return if (isKotlinSerialize) {
             tryForKS {
                 kotlinSerialization.encodeToString(data)
-            }
+            }.getOrNull()
         } else {
             tryForGson {
                 gson.toJson(data)
-            }
+            }.getOrNull()
         }
     }
 
-    fun <T> tryForGson(block: () -> T?): T? {
+    fun <T> tryForGson(block: () -> T?): Result<T?> {
         return try {
-            block()
+            return Result.success(block())
         } catch (e: JsonParseException) {
             e.printStackTrace()
-            null
+            e
         } catch (e: JsonParseException) {
             e.printStackTrace()
-            null
+            e
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
-            null
+            e
         } catch (e: ClassCastException) {
             e.printStackTrace()
-            null
-        }
+            e
+        }.let { Result.failure(JsonUtilParseException(it)) }
     }
 
-    fun <T> tryForKS(block: () -> T?): T? {
+    fun <T> tryForKS(block: () -> T?): Result<T?> {
         return try {
-            block()
+            return Result.success(block())
         } catch (e: SerializationException) {
             e.printStackTrace()
-            null
+            e
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
-            null
-        }
+            e
+        } catch (e: ClassCastException) {
+            e.printStackTrace()
+            e
+        }.let { Result.failure(JsonUtilParseException(it)) }
     }
 
     fun Map<*, *>.toJSONObject(): JSONObject
@@ -166,5 +183,14 @@ object JsonUtil {
     } catch (e: JSONException) {
         e.printStackTrace()
         JSONObject()
+    }
+}
+
+class JsonUtilParseException(val exception: Throwable): Throwable() {
+    override val message: String?
+        get() = exception.message
+
+    override fun printStackTrace() {
+        exception.printStackTrace()
     }
 }

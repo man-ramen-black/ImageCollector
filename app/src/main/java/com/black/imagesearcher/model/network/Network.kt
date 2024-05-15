@@ -1,13 +1,11 @@
 package com.black.imagesearcher.model.network
 
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.black.imagesearcher.BuildConfig
 import com.black.imagesearcher.model.data.NetworkResult
-import com.black.imagesearcher.model.data.ResponseParsingException
-import com.black.imagesearcher.model.data.UnknownNetworkException
 import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
 import com.black.imagesearcher.util.Util.ifThen
-import com.black.imagesearcher.BuildConfig
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -176,12 +174,12 @@ class NetworkResultCall<T>(private val proxy: Call<T>, private val type: Type, p
     }
 
     override fun execute(): Response<NetworkResult<T>> {
-        val networkResult = try {
+        val result = try {
             onResponse(proxy.execute(), type)
         } catch (t: Throwable) {
             onFailed(t)
         }
-        return Response.success(networkResult)
+        return Response.success(result)
     }
 
     /**
@@ -189,20 +187,37 @@ class NetworkResultCall<T>(private val proxy: Call<T>, private val type: Type, p
      */
     private fun onResponse(response: Response<*>?, type: Type) : NetworkResult<T> {
         // statusCode 200 ~ 300을 벗어난 경우 body가 null이고, errorBody에 데이터가 있음
-        val data : T? = response?.let {
-            @Suppress("UNCHECKED_CAST")
-            it.body() as? T
-                ?: parse(it.errorBody()?.string(), type)
-        }
+        val result : Result<T?> = response?.body()
+            ?.let {
+                try {
+                    @Suppress("UNCHECKED_CAST")
+                    Result.success(it as T)
+                } catch (e: ClassCastException) {
+                    Result.failure(e)
+                }
+            }
+            ?: parse(response?.errorBody()?.string(), type)
 
-        return if (data != null) {
-            NetworkResult.success(data, response.code(), response.headers())
+        val data = result.getOrNull()
+        val exception = result.exceptionOrNull()
+        val raw: okhttp3.Response? = response?.raw()
 
-        } else if (response?.code() == Network.STATUS_CODE_INVALID_URL) {
-            NetworkResult.failure(IllegalArgumentException("Invalid url : ${response.raw().request.url}"), response.code(), response.headers())
+        return when {
+            data != null -> {
+                NetworkResult.Success(data, raw!!)
+            }
 
-        } else {
-            NetworkResult.failure(NoSuchFieldException("Response is null"), response?.code(), response?.headers())
+            response?.code() == Network.STATUS_CODE_INVALID_URL -> {
+                NetworkResult.Error(IllegalArgumentException("Invalid url : ${raw?.request?.url}"), raw)
+            }
+
+            exception != null -> {
+                NetworkResult.Error(exception)
+            }
+
+            else -> {
+                NetworkResult.Error(NoSuchFieldException("Response is null"), raw)
+            }
         }
     }
 
@@ -220,49 +235,53 @@ class NetworkResultCall<T>(private val proxy: Call<T>, private val type: Type, p
             // 타임아웃
             is InterruptedIOException  -> {
                 t.printStackTrace()
-                return NetworkResult.failure(TimeoutException("Timeout"))
+                return NetworkResult.Error(TimeoutException("Timeout"))
             }
 
             // job.cancel
             is CancellationException -> {
                 t.printStackTrace()
-                return NetworkResult.failure(CancellationException())
+                return NetworkResult.Error(CancellationException())
             }
         }
 
         return try {
-            // throw해서 NMJson.tryFor로 예외 처리가 된다면 데이터 파싱 에러
-            if (KotlinSerialization.isKotlinSerialization(annotations)) {
+            // throw해서 JsonUtil.tryFor로 예외 처리가 된다면 데이터 파싱 에러
+            val result = if (KotlinSerialization.isKotlinSerialization(annotations)) {
                 JsonUtil.tryForKS { throw t }
             } else {
                 JsonUtil.tryForGson { throw t }
             }
-            NetworkResult.failure(ResponseParsingException())
+            NetworkResult.Error(result.exceptionOrNull()!!)
 
         } catch (e: Exception) {
             // 그 외 에러는 알 수 없음
             e.printStackTrace()
-            NetworkResult.failure(UnknownNetworkException(e.message ?: ""))
+            NetworkResult.Error(UnknownNetworkException(e))
         }
     }
 
     /**
      * Gson을 사용하여 String -> T로 변환
      */
-    private fun parse(response: String?, type: Type) : T? {
+    private fun parse(response: String?, type: Type) : Result<T?> {
         if (response == null) {
             Log.w("response is null")
-            return null
+            return Result.success(null)
         }
 
         return when {
             annotations.any { it.annotationClass == KotlinSerialization::class } -> {
-                JsonUtil.from(response, type, true)
+                JsonUtil.tryForKS {
+                    JsonUtil.fromNotNull(response, type, true)
+                }
             }
             else -> {
-                // https://stackoverflow.com/questions/32444863/google-gson-linkedtreemap-class-cast-to-myclass
-                // 제네릭으로 처리 시 클래스 정보가 손실되므로 type을 직접 전달하여 파싱
-                JsonUtil.from(response, type, false)
+                JsonUtil.tryForGson {
+                    // https://stackoverflow.com/questions/32444863/google-gson-linkedtreemap-class-cast-to-myclass
+                    // 제네릭으로 처리 시 클래스 정보가 손실되므로 type을 직접 전달하여 파싱
+                    JsonUtil.from(response, type, false)
+                }
             }
         }
     }
@@ -356,3 +375,5 @@ class JsonConverterFactory(
         }
     }
 }
+
+class UnknownNetworkException(val exception: Throwable) : Throwable()

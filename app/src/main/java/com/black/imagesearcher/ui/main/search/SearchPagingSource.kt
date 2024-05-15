@@ -4,13 +4,9 @@ import androidx.lifecycle.asLiveData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.black.imagesearcher.model.SearchModel
-import com.black.imagesearcher.util.Log
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.yield
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
@@ -25,34 +21,13 @@ class SearchPagingSource(private val searchModel: SearchModel, private val query
             ?.also { page.set(it) }
             ?: page.get()
 
-        // TODO isEnd 후 미호출 처리 추가
-        val imageSearch = async {
-            val result = searchModel.searchImage(query, loadPage)
-            Log.d(result)
-            yield()
-            result
-        }
+        val result = searchModel.searchAll(query, loadPage)
+        val data = result.getOrNull()
+            ?: return@withContext LoadResult.Error(result.exceptionOrNull() ?: UnknownError())
 
-        // TODO isEnd 후 미호출 처리 추가
-        val videoSearch = async {
-            val result = searchModel.searchVideo(query, loadPage)
-            Log.d(result)
-            yield()
-            result
-        }
 
-        val results = awaitAll(imageSearch, videoSearch)
-        // 실패 결과가 있다면 중단
-        val errorResult = results.firstOrNull { !it.isSuccess }
-        if (errorResult != null) {
-            return@withContext LoadResult.Error(errorResult.exception!!)
-        }
-
-        val isEnd = results.all { it.response!!.first }
-
-        // 리스트 join, 정렬
-        val itemList = results.flatMap { it.response!!.second }
-            .sortedByDescending { it.dateTime }
+        val isEnd = data.isEnd
+        val itemList = result.getOrNull()!!.contents
             .map { content ->
                 SearchItem.ContentItem(
                     content,
