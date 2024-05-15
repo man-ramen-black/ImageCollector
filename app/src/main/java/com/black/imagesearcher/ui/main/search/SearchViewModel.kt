@@ -13,7 +13,9 @@ import com.black.imagesearcher.data.SearchRepository
 import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
+import com.black.imagesearcher.util.Util.isNotCompleted
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -73,9 +75,11 @@ class SearchViewModel @Inject constructor(
         sendEvent(EVENT_START_DETAIL, content)
     }
 
-    private fun onClickFavorite(content: Content) = viewModelScope.launch {
+    private fun onClickFavorite(content: Content) {
         Log.v(content)
-        model.toggleFavorite(content)
+        launchSingle {
+            model.toggleFavorite(content)
+        }
     }
 
     fun onClickDelete() {

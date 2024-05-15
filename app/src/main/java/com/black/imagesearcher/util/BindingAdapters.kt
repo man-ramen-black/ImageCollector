@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.concurrent.atomic.AtomicLong
 
 object ImageViewBindingAdapter {
     @BindingAdapter("glideUrl", "glideCircle", "glideError", "glidePlaceholder", requireAll = false)
@@ -69,10 +70,25 @@ object ViewPagerBindingAdapter {
     }
 }
 
-object ToolbarBindingAdapter {
-    @BindingAdapter("onNavigationClick")
+object ViewBindingAdapter {
+    private const val CLICK_DELAY = 350L
+    private val clickTime = AtomicLong(0L)
+
+    /**
+     * 전역 멀티 터치 방지 onClick
+     * 해당 onClick이 설정된 뷰들은 특정 뷰 onClick 시 CLICK_DELAY 동안 모든 뷰의 onClick 차단
+     */
+    @BindingAdapter("onClick")
     @JvmStatic
-    fun setNavigationOnClickListener(view: Toolbar, onClick: ((View)->Unit)?) {
-        view.setNavigationOnClickListener(onClick)
+    fun setOnClickListener(view: View, listener: View.OnClickListener?) {
+        view.setOnClickListener {
+            if (System.currentTimeMillis() - clickTime.get() < CLICK_DELAY) {
+                Log.v("Cannot click")
+                @Suppress("LABEL_NAME_CLASH")
+                return@setOnClickListener
+            }
+            clickTime.set(System.currentTimeMillis())
+            listener?.onClick(view)
+        }
     }
 }

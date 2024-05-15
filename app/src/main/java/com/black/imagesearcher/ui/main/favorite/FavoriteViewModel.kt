@@ -4,9 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.black.imagesearcher.base.viewmodel.EventViewModel
 import com.black.imagesearcher.data.SearchRepository
 import com.black.imagesearcher.data.model.Content
-import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
+import com.black.imagesearcher.util.Util.isNotCompleted
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,18 +29,20 @@ class FavoriteViewModel @Inject constructor(
                 FavoriteItem(
                     content,
                     { onClickContent(it) },
-                    { onClickToggleFavorite(it) }
+                    { onClickFavorite(it) }
                 )
             }
         }
 
-    private fun onClickContent(content: Content) = viewModelScope.launch {
+    private fun onClickContent(content: Content) {
         Log.v(content)
         sendEvent(EVENT_SHOW_DETAIL, content)
     }
 
-    private fun onClickToggleFavorite(content: Content) = viewModelScope.launch {
+    private fun onClickFavorite(content: Content) {
         Log.v(content)
-        model.toggleFavorite(content)
+        launchSingle {
+            model.toggleFavorite(content)
+        }
     }
 }

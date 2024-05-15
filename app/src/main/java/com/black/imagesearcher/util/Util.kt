@@ -32,4 +32,8 @@ object Util {
     fun <T> T.ifThen(isTrue: Boolean, then: T.() -> Unit): T = apply {
         if (isTrue) then()
     }
+
+    fun Job?.isNotCompleted(): Boolean {
+        return this?.isCompleted == false
+    }
 }

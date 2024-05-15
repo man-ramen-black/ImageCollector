@@ -8,7 +8,9 @@ import com.black.imagesearcher.data.SearchRepository
 import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
+import com.black.imagesearcher.util.Util.isNotCompleted
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,8 +31,10 @@ class DetailViewModel @Inject constructor(
         .map { it.contains(content) }
         .asLiveData()
 
-    fun onClickFavorite() = viewModelScope.launch {
+    fun onClickFavorite() {
         Log.v()
-        model.toggleFavorite(content ?: return@launch)
+        launchSingle {
+            model.toggleFavorite(content ?: return@launchSingle)
+        }
     }
 }

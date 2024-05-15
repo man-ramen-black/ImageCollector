@@ -5,11 +5,22 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.black.imagesearcher.util.Log
+import com.black.imagesearcher.util.Util.isNotCompleted
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * ViewModel -> View 이벤트 전송 편의를 위한 ViewModel
  */
 open class EventViewModel : ViewModel()  {
+    private val jobs = ConcurrentHashMap<String, Job>()
     private val event = SingleLiveData<Event>()
 
     @MainThread
@@ -64,6 +75,19 @@ open class EventViewModel : ViewModel()  {
     fun <T> LiveData<T>.observe(observer: Observer<T>) {
         this.observeForever(observer)
         addCloseable { this.removeObserver(observer) }
+    }
+
+    fun launchSingle(
+        context: CoroutineContext = EmptyCoroutineContext,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        block: suspend CoroutineScope.() -> Unit
+    ) {
+        val methodName = Thread.currentThread().stackTrace[3].methodName
+        if (jobs[methodName].isNotCompleted()) {
+            Log.v("$methodName job is not completed")
+            return
+        }
+        jobs[methodName] = viewModelScope.launch(context, start, block)
     }
 }
 

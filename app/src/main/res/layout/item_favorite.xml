@@ -16,7 +16,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{_->item.onItemClick.invoke(item.content)}"
+        onClick="@{_->item.onItemClick.invoke(item.content)}"
         >
 
         <com.google.android.material.card.MaterialCardView
@@ -54,7 +54,7 @@
             android:padding="2dp"
             android:background="@drawable/bt_transparent_circle"
             android:src="@drawable/icon_like_on"
-            android:onClick="@{_->item.onClickFavorite.invoke(item.content)}"
+            onClick="@{_->item.onClickFavorite.invoke(item.content)}"
             />
 
         <ImageView

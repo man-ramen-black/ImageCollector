@@ -3,17 +3,17 @@ package com.black.imagesearcher.data
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.black.imagesearcher.data.datastore.SearchDataStore
 import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.data.model.Contents
 import com.black.imagesearcher.data.model.NetworkResult
 import com.black.imagesearcher.data.model.PagingContent
 import com.black.imagesearcher.data.model.ServerError
 import com.black.imagesearcher.data.model.TypeContents
-import com.black.imagesearcher.data.datastore.SearchDataStore
 import com.black.imagesearcher.data.network.search.SearchApi
 import com.black.imagesearcher.data.network.search.SortType
-import com.black.imagesearcher.data.preferences.SearchPreferences
 import com.black.imagesearcher.data.paging.SearchPagingSource
+import com.black.imagesearcher.data.preferences.SearchPreferences
 import com.black.imagesearcher.ui.main.search.SearchViewModel
 import com.black.imagesearcher.util.Log
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +43,9 @@ class SearchRepository @Inject constructor(
         private const val PAGE_SIZE = 10
         private val SORT_TYPE = SortType.RECENCY
         private const val SEARCH_DELAY = 500L
+        private const val DATE_FORMAT_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+
+        private const val USE_DATA_STORE = false
     }
 
     private val searchEndCache = SearchEndCache()
@@ -178,26 +181,36 @@ class SearchRepository @Inject constructor(
     }
 
     fun getFavoriteFlow(): Flow<Set<Content>> {
-//        return dataStore.getFavoriteFlow()
-        return preferences.getFavoriteFlow()
+        return if (USE_DATA_STORE) {
+            dataStore.getFavoriteFlow()
+        } else {
+            preferences.getFavoriteFlow()
+        }
     }
 
     suspend fun toggleFavorite(content: Content) {
-//        val favoriteSet = dataStore.getFavorite()
-        val favoriteSet = preferences.getFavorite()
-            .toMutableSet()
+        val favoriteSet = if (USE_DATA_STORE) {
+            dataStore.getFavorite()
+        } else {
+            preferences.getFavorite()
+        }.toMutableSet()
+
         if (favoriteSet.contains(content)) {
             favoriteSet.remove(content)
         } else {
             favoriteSet.add(content)
         }
-//        dataStore.updateFavorite(favoriteSet)
-        preferences.updateFavorite(favoriteSet)
+
+        if (USE_DATA_STORE) {
+            dataStore.updateFavorite(favoriteSet)
+        } else {
+            preferences.updateFavorite(favoriteSet)
+        }
     }
 
     private fun toTimeMillis(iso8601: String): Long {
         return try {
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+            SimpleDateFormat(DATE_FORMAT_ISO8601, Locale.getDefault())
                 .parse(iso8601)
                 ?.time ?: 0L
         } catch (e: ParseException) {
