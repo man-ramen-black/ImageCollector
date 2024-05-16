@@ -72,6 +72,12 @@ object ViewPagerBindingAdapter {
     fun setUserInputEnabled(view: ViewPager2, enabled: Boolean) {
         view.isUserInputEnabled = enabled
     }
+
+    @BindingAdapter("offscreenPageLimit")
+    @JvmStatic
+    fun setOffscreenPageLimit(view: ViewPager2, limit: Int) {
+        view.offscreenPageLimit = limit.takeIf { it != 0 } ?: ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
+    }
 }
 
 object ViewBindingAdapter {
