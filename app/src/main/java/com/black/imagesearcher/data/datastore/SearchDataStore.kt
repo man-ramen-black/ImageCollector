@@ -9,6 +9,7 @@ import com.black.imagesearcher.base.data.BaseDataStore
 import com.black.imagesearcher.data.SearchRepository
 import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.util.JsonUtil
+import com.black.imagesearcher.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -43,6 +44,7 @@ class SearchDataStore @Inject constructor(
     suspend fun updateFavorite(favoriteSet: Set<Content>) {
         val updateData = favoriteSet
             .let { JsonUtil.to(it, true) ?: return }
+        Log.d(updateData)
         update(KEY_FAVORITE, updateData)
     }
 }

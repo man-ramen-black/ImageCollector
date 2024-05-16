@@ -89,6 +89,11 @@ open class EventViewModel : ViewModel()  {
         }
         jobs[methodName] = viewModelScope.launch(context, start, block)
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.v(this::class.java.simpleName)
+    }
 }
 
 data class Event(val action: String, val data: Any?)

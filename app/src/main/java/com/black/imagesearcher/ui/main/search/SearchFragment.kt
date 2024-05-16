@@ -25,8 +25,8 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
 
     override fun onBindVariable(binding: FragmentSearchBinding) {
         adapter = SearchAdapter()
-        binding.viewModel = viewModel
         binding.adapter = adapter
+        binding.viewModel = viewModel
         viewModel.observeEvent(viewLifecycleOwner, this)
 
         viewLifecycleOwner.lifecycleScope.launch {

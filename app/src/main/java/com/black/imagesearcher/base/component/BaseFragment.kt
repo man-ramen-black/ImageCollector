@@ -48,7 +48,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment(), EventObserver {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.v(javaClass.simpleName + " : $savedInstanceState")
+        Log.v(javaClass.simpleName)
         _binding = DataBindingUtil.inflate<T>(inflater, layoutResId, container, false).apply {
             // lifecycleOwner를 적용하지 않으면 liveData 변경 시 뷰에 반영되지 않음
             // https://stackoverflow.com/questions/59545195/mutablelivedata-not-updating-in-ui
@@ -64,7 +64,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment(), EventObserver {
      */
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.v(javaClass.simpleName + " : $savedInstanceState")
+        Log.v(javaClass.simpleName)
         super.onViewCreated(view, savedInstanceState)
         onBindVariable(_binding!!)
     }
@@ -119,6 +119,17 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment(), EventObserver {
     @CallSuper
     override fun onDetach() {
         super.onDetach()
+        Log.v(javaClass.simpleName)
+    }
+
+    @CallSuper
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.v(javaClass.simpleName)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
         Log.v(javaClass.simpleName)
     }
 

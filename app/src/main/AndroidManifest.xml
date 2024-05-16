@@ -21,7 +21,6 @@
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             android:exported="true"
             tools:ignore="LockedOrientationActivity">
             <!-- 앱 실행 -->
