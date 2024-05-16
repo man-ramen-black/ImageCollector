@@ -70,10 +70,11 @@
         <ImageView
             android:id="@+id/thumbnail_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@id/top_bar"
             app:layout_constraintBottom_toBottomOf="parent"
-            glideUrl="@{viewModel.content.thumbnail}"
+            glideUrl="@{viewModel.content.image ?? viewModel.content.thumbnail}"
+            glideErrorUrl="@{viewModel.content.thumbnail}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
