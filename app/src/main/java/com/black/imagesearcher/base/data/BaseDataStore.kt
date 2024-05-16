@@ -1,4 +1,4 @@
-package com.black.imagesearcher.base.datastore
+package com.black.imagesearcher.base.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore
