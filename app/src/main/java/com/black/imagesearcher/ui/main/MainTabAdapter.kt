@@ -1,15 +1,19 @@
 package com.black.imagesearcher.ui.main
 
 import androidx.fragment.app.Fragment
-import com.black.imagesearcher.base.adapter.BaseFragmentStateAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
 
 /**
  * [MainFragment]
  */
 class MainTab(val title: String, val createFragment: () -> Fragment)
 
-class MainTabAdapter(fragment: Fragment): BaseFragmentStateAdapter<MainTab>(fragment) {
+class MainTabAdapter(fragment: Fragment, private val tabs: List<MainTab>): FragmentStateAdapter(fragment) {
     override fun createFragment(position: Int): Fragment {
-        return getItem(position).createFragment()
+        return tabs[position].createFragment()
+    }
+
+    override fun getItemCount(): Int {
+        return tabs.size
     }
 }

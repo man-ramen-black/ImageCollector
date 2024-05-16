@@ -23,12 +23,13 @@ class MainFragment: BaseFragment<FragmentMainBinding>() {
             ) { FavoriteFragment() }
         )
     }
+//    private lateinit var adapter: MainTabAdapter
     private lateinit var adapter: MainTabAdapter
 
     override val layoutResId: Int = R.layout.fragment_main
 
     override fun onBindVariable(binding: FragmentMainBinding) {
-        adapter = MainTabAdapter(this)
+        adapter = MainTabAdapter(this, tabs)
         binding.adapter = adapter
     }
 
@@ -40,7 +41,5 @@ class MainFragment: BaseFragment<FragmentMainBinding>() {
             smoothScroll = false,
             tabText = { _, position -> tabs[position].title }
         )
-
-        adapter.submitList(tabs)
     }
 }

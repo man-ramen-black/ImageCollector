@@ -150,9 +150,6 @@ object JsonUtil {
         } catch (e: JsonParseException) {
             e.printStackTrace()
             e
-        } catch (e: JsonParseException) {
-            e.printStackTrace()
-            e
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
             e

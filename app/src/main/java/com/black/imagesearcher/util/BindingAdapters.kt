@@ -15,9 +15,9 @@ import java.util.Locale
 import java.util.concurrent.atomic.AtomicLong
 
 object ImageViewBindingAdapter {
-    @BindingAdapter("glideUrl", "glideCircle", "glideError", "glidePlaceholder", requireAll = false)
+    @BindingAdapter("glideUrl", "glideCircle", "glideErrorDrawable", "glidePlaceholder", "glideErrorUrl", requireAll = false)
     @JvmStatic
-    fun setGlideImage(view: ImageView, url: String?, isCircle: Boolean?, errorDrawable: Drawable?, placeholder: Drawable?) {
+    fun setGlideImage(view: ImageView, url: String?, isCircle: Boolean?, errorDrawable: Drawable?, placeholder: Drawable?, errorUrl: String?) {
         if (url == null) {
             return
         }
@@ -28,6 +28,10 @@ object ImageViewBindingAdapter {
             .override(Target.SIZE_ORIGINAL) // 이미지 원본 사이즈 사용
             .run { if (isCircle == true) circleCrop() else this }
             .run { error(errorDrawable ?: return@run this) }
+            .run {
+                errorUrl ?: return@run this
+                error(Glide.with(view).load(errorUrl))
+            }
             .run { placeholder(placeholder ?: return@run this) }
             .into(view)
     }
@@ -67,6 +71,12 @@ object ViewPagerBindingAdapter {
     @JvmStatic
     fun setUserInputEnabled(view: ViewPager2, enabled: Boolean) {
         view.isUserInputEnabled = enabled
+    }
+
+    @BindingAdapter("offscreenPageLimit")
+    @JvmStatic
+    fun setOffscreenPageLimit(view: ViewPager2, limit: Int) {
+        view.offscreenPageLimit = limit.takeIf { it != 0 } ?: ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
     }
 }
 

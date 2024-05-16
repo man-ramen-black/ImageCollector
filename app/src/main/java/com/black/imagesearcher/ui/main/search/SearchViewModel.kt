@@ -1,6 +1,7 @@
 package com.black.imagesearcher.ui.main.search
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -22,7 +23,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val model: SearchRepository
+    private val model: SearchRepository,
+    savedStateHandle: SavedStateHandle
 ): EventViewModel() {
     companion object {
         const val EVENT_START_DETAIL = "EVENT_SHOW_DETAIL"
@@ -65,6 +67,13 @@ class SearchViewModel @Inject constructor(
             }
         }
         .cachedIn(viewModelScope)
+
+    init {
+        savedStateHandle.keys()
+            .map { "$it : ${savedStateHandle.get<Any>(it)}" }
+            .fold("") { total, item -> "$total, $item" }
+            .also { Log.e("init : $it") }
+    }
 
     private fun onClickContent(content: Content) {
         Log.v(content)

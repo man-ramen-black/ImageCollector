@@ -23,6 +23,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
@@ -53,6 +54,7 @@ class SearchRepository @Inject constructor(
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     fun getSearchPagingFlow(searchKeywordFlow: Flow<String>): Flow<PagingData<PagingContent>> {
         return searchKeywordFlow
+            .distinctUntilChanged()
             // 타이핑 즉시 검색을 막기 위해 딜레이 적용
             .debounce(SEARCH_DELAY)
             .flatMapLatest { keyword ->
@@ -136,6 +138,7 @@ class SearchRepository @Inject constructor(
                 Content(
                     Content.Type.IMAGE,
                     it.thumbnailUrl,
+                    it.imageUrl,
                     it.displaySiteName,
                     it.collection,
                     it.docUrl,
@@ -171,6 +174,7 @@ class SearchRepository @Inject constructor(
                 Content(
                     Content.Type.VIDEO,
                     it.thumbnail,
+                    null,
                     it.title,
                     "",
                     it.url,
@@ -189,6 +193,7 @@ class SearchRepository @Inject constructor(
     }
 
     suspend fun toggleFavorite(content: Content) {
+        Log.d(content)
         val favoriteSet = if (USE_DATA_STORE) {
             dataStore.getFavorite()
         } else {

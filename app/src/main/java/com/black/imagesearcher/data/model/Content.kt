@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 data class Content(
     val type: Type,
     val thumbnail: String,
+    val image: String?,
     val title: String,
     val category: String,
     val contentUrl: String,

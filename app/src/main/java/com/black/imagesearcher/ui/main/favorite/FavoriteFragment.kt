@@ -1,6 +1,5 @@
 package com.black.imagesearcher.ui.main.favorite
 
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.black.imagesearcher.R
 import com.black.imagesearcher.base.component.BaseFragment
@@ -9,13 +8,14 @@ import com.black.imagesearcher.databinding.FragmentFavoriteBinding
 import com.black.imagesearcher.ui.detail.DetailFragment
 import com.black.imagesearcher.ui.main.MainFragmentDirections
 import com.black.imagesearcher.util.FragmentExtension.navigate
+import com.black.imagesearcher.util.FragmentExtension.parentViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FavoriteFragment: BaseFragment<FragmentFavoriteBinding>() {
-    private val viewModel: FavoriteViewModel by viewModels()
+    private val viewModel: FavoriteViewModel by parentViewModels()
     private lateinit var adapter: FavoriteAdapter
 
     override val layoutResId: Int = R.layout.fragment_favorite

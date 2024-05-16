@@ -3,6 +3,7 @@ package com.black.imagesearcher.ui.main.search
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.paging.map
 import com.black.imagesearcher.R
 import com.black.imagesearcher.base.component.BaseFragment
 import com.black.imagesearcher.data.model.Content
@@ -10,10 +11,13 @@ import com.black.imagesearcher.databinding.FragmentSearchBinding
 import com.black.imagesearcher.ui.detail.DetailFragment
 import com.black.imagesearcher.ui.main.MainFragmentDirections
 import com.black.imagesearcher.util.FragmentExtension.navigate
+import com.black.imagesearcher.util.FragmentExtension.parentViewModels
+import com.black.imagesearcher.util.Log
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -25,8 +29,8 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
 
     override fun onBindVariable(binding: FragmentSearchBinding) {
         adapter = SearchAdapter()
-        binding.viewModel = viewModel
         binding.adapter = adapter
+        binding.viewModel = viewModel
         viewModel.observeEvent(viewLifecycleOwner, this)
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -34,7 +38,12 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
             // collect는 모든 데이터를 순차적으로 처리
             // collectLatest 처리 중 새로운 데이터가 들어오면 기존 데이터를 패스하고 새로운 데이터를 처리
             // https://kotlinworld.com/252
-            viewModel.searchFlow.collectLatest { adapter.submitData(it) }
+            viewModel.searchFlow
+                .map { it.map { item ->
+                    Log.e("collect $item")
+                    item
+                } }
+                .collectLatest { adapter.submitData(it) }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -42,6 +51,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
                 // 중복 데이터 패스
                 .distinctUntilChangedBy { it.refresh }
                 .collectLatest {
+                    Log.e("loadSate : $it")
                     val refresh = it.refresh
                     if (refresh is LoadState.Error) {
                         showError(refresh.error.message ?: refresh.error::class.java.simpleName)

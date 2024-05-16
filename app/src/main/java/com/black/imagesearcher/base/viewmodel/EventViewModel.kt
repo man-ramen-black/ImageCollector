@@ -11,6 +11,7 @@ import com.black.imagesearcher.util.Util.isNotCompleted
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.coroutines.CoroutineContext
@@ -83,11 +84,28 @@ open class EventViewModel : ViewModel()  {
         block: suspend CoroutineScope.() -> Unit
     ) {
         val methodName = Thread.currentThread().stackTrace[3].methodName
+        Log.e("methodName : $methodName")
         if (jobs[methodName].isNotCompleted()) {
             Log.v("$methodName job is not completed")
             return
         }
-        jobs[methodName] = viewModelScope.launch(context, start, block)
+
+        Log.e("viewModelScope.isActive : ${viewModelScope.isActive}")
+        Log.e("coroutineContext : ${viewModelScope.coroutineContext}")
+        jobs[methodName] = viewModelScope.launch(context, start) {
+            Log.e("block")
+            block()
+        }
+            .also {
+                it.invokeOnCompletion { t ->
+                    Log.e("invokeOnCompletion: $t")
+                }
+            }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.e(this::class.java.simpleName)
     }
 }
 
