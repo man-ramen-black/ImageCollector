@@ -19,11 +19,13 @@
             app:layout_constraintTop_toTopOf="parent"
             >
             <!-- 참고: 내부 로직에 최소 height 48dp 로직 존재 -->
+            <!-- layout_height="wrap_content" 적용 시 하단에 패딩이 생기는 이슈 우회를 위해 -->
+            <!-- layout_height="0dp" 적용 -->
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
                 style="@style/Widget.ImageSearcher.TabLayout.MainTab"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
