@@ -10,7 +10,10 @@ import com.black.imagesearcher.databinding.ItemFavoriteBinding
 /**
  * [FavoriteFragment]
  **/
-class FavoriteAdapter: BaseListAdapter<FavoriteItem>({ old, new -> old.content == new.content }) {
+class FavoriteAdapter: BaseListAdapter<FavoriteItem>(
+    { old, new -> old.content == new.content },
+    { old, new -> old.content == new.content }
+) {
     class ViewHolder(binding: ItemFavoriteBinding): BaseViewHolder<ItemFavoriteBinding, FavoriteItem>(binding) {
         override fun bind(item: FavoriteItem) {
             binding.item = item

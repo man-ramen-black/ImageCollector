@@ -9,7 +9,10 @@ DiffUtil? : https://zion830.tistory.com/86
 샘플 코드 : https://www.charlezz.com/?p=1363
 왜 Items, Contents가 따로 있는지 : https://stackoverflow.com/questions/72178004/why-use-areitemsthesame-with-arecontentsthesame-at-diffutil-recyclerview
  */
-open class SimpleItemCallback<T : Any>(private val areItemsTheSame : (oldItem: T, newItem: T) -> Boolean = { old, new -> old == new})
+open class SimpleItemCallback<T : Any>(
+    private val areItemsTheSame : (old: T, new: T) -> Boolean = { old, new -> old == new},
+    private val areContentsTheSame : (old: T, new: T) -> Boolean = { old, new -> old == new}
+)
     : DiffUtil.ItemCallback<T>()
 {
     /**
@@ -27,6 +30,6 @@ open class SimpleItemCallback<T : Any>(private val areItemsTheSame : (oldItem: T
      */
     @SuppressLint("DiffUtilEquals")
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-        return (oldItem == newItem)
+        return areContentsTheSame.invoke(oldItem, newItem)
     }
 }

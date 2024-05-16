@@ -15,8 +15,14 @@ https://youngest-programming.tistory.com/474
 abstract class BaseListAdapter<DATA : Any>(itemCallback: DiffUtil.ItemCallback<DATA> = SimpleItemCallback())
     : ListAdapter<DATA, BaseViewHolder<ViewDataBinding, DATA>>(itemCallback) {
 
-    constructor(areItemsTheSame : (oldItem: DATA, newItem: DATA) -> Boolean)
-            : this(SimpleItemCallback<DATA>(areItemsTheSame))
+    constructor(
+        areItemsTheSame : (old: DATA, new: DATA) -> Boolean
+    ): this(SimpleItemCallback<DATA>(areItemsTheSame))
+
+    constructor(
+        areItemsTheSame : (old: DATA, new: DATA) -> Boolean,
+        areContentsTheSame : (old: DATA, new: DATA) -> Boolean
+    ) : this(SimpleItemCallback<DATA>(areItemsTheSame, areContentsTheSame))
 
     override fun onBindViewHolder(holder: BaseViewHolder<ViewDataBinding, DATA>, position: Int) {
         holder.bind(getItem(position))
