@@ -15,9 +15,9 @@ class SearchPreferences @Inject constructor(
     @ApplicationContext context: Context
 ): BasePreferences(context) {
     companion object {
-        private const val KEY_FAVORITE = "favorite"
+        private val Context.searchPreferences by preferences("Search")
 
-        val Context.searchPreferences by preferences("Search")
+        private const val KEY_FAVORITE = "favorite"
     }
 
     override fun getPreferences(context: Context): SharedPreferences {
@@ -25,18 +25,18 @@ class SearchPreferences @Inject constructor(
     }
 
     fun getFavorite(): Set<Content> {
-        return get(KEY_FAVORITE, "[]")
+        return get(KEY_FAVORITE, "[]", String::class.java)
             .let { JsonUtil.from(it, true) ?: emptySet() }
     }
 
     fun getFavoriteFlow(): Flow<Set<Content>> {
-        return flow(KEY_FAVORITE, "[]")
+        return flow(KEY_FAVORITE, "[]", String::class.java)
             .map { JsonUtil.from(it, true) ?: emptySet() }
     }
 
     fun updateFavorite(favoriteSet: Set<Content>) {
         val updateData = favoriteSet
             .let { JsonUtil.to(it, true) ?: return }
-        put(KEY_FAVORITE, updateData)
+        put(KEY_FAVORITE, updateData, String::class.java)
     }
 }

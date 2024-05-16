@@ -6,7 +6,6 @@ import com.black.imagesearcher.data.SearchRepository
 import com.black.imagesearcher.data.model.Content
 import com.black.imagesearcher.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
+/**
+ * https://developer.android.com/topic/libraries/architecture/datastore?hl=ko
+ */
 abstract class BaseDataStore(private val context: Context) {
     protected abstract fun getDataStore(context: Context): DataStore<Preferences>
 

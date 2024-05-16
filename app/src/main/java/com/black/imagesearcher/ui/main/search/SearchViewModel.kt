@@ -11,14 +11,10 @@ import androidx.paging.map
 import com.black.imagesearcher.base.viewmodel.EventViewModel
 import com.black.imagesearcher.data.SearchRepository
 import com.black.imagesearcher.data.model.Content
-import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
-import com.black.imagesearcher.util.Util.isNotCompleted
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**

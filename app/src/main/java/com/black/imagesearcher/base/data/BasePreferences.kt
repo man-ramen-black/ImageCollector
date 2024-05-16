@@ -2,6 +2,7 @@ package com.black.imagesearcher.base.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.black.imagesearcher.util.JsonUtil
 import com.black.imagesearcher.util.Log
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -10,11 +11,11 @@ import kotlinx.coroutines.flow.callbackFlow
 abstract class BasePreferences(private val context: Context) {
     abstract fun getPreferences(context: Context): SharedPreferences
 
-    fun flow(key: String, def: String): Flow<String> {
+    fun <T> flow(key: String, def: T, cls: Class<T>): Flow<T> {
         val preferences = getPreferences(context)
         return callbackFlow {
             val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-                val value = get(key ?: return@OnSharedPreferenceChangeListener, def)
+                val value = get(key ?: return@OnSharedPreferenceChangeListener, def, cls)
                 trySend(value)
             }
 
@@ -33,15 +34,34 @@ abstract class BasePreferences(private val context: Context) {
         return getPreferences(context).all[key]?.toString()
     }
 
-    fun get(key: String, def: String): String {
-        return (get(key) ?: def)
-            .also { Log.v(it) }
+    fun <T> get(key: String, cls: Class<T>): T? {
+        val value = get(key)
+        return when (cls.name) {
+            Int::class.java.name -> cls.cast(value?.toIntOrNull() ?: return null)
+            Long::class.java.name -> cls.cast(value?.toLongOrNull() ?: return null)
+            Float::class.java.name -> cls.cast(value?.toFloatOrNull() ?: return null)
+            Boolean::class.java.name -> cls.cast(value?.toBoolean() ?: return null)
+            String::class.java.name -> cls.cast(value ?: return null)
+            else -> JsonUtil.from(value ?: return null, cls)
+        }
     }
 
-    fun put(key: String, value: String) {
-        Log.v("$key : $value")
+    fun <T> get(key: String, def: T, cls: Class<T>): T {
+        return get(key, cls) ?: def
+    }
+
+    fun <T> put(key: String, value: T, cls: Class<T>) {
         getPreferences(context).edit()
-            .putString(key, value)
+            .apply {
+                when (value) {
+                    is Int -> putInt(key, value)
+                    is Long -> putLong(key, value)
+                    is Float -> putFloat(key, value)
+                    is Boolean -> putBoolean(key, value)
+                    is String -> putString(key, value)
+                    else -> putString(key, JsonUtil.to(value, cls) ?: return@apply)
+                }
+            }
             .apply()
     }
 
